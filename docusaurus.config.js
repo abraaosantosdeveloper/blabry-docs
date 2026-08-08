@@ -23,7 +23,7 @@ const config = {
   url: 'https://abraaosantosdeveloper.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/docs/',
+  baseUrl: '/blabry-docs/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -70,6 +70,12 @@ const config = {
     src: 'img/logo.svg',
   },
   items: [
+      {
+    type: 'docSidebar',
+    sidebarId: 'tutorialSidebar',
+    position: 'left',
+    label: 'Documentação',
+  },
     {
       href: 'https://github.com/abraaosantosdeveloper/blabry',
       label: 'GitHub',
