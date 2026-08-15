@@ -1,0 +1,47 @@
+---
+sidebar_position: 5
+title: Requisitos Não Funcionais
+---
+
+# Requisitos Não Funcionais
+
+## Performance
+
+| ID | Descrição |
+|---|---|
+| RNF-F01 | A aplicação deve carregar a tela inicial em menos de 3 segundos em conexões padrão. |
+| RNF-F02 | Transições entre seções da SPA devem ser executadas em menos de 300ms. |
+| RNF-F03 | Imagens e SVGs devem ser otimizados antes do build. |
+| RNF-F04 | O bundle gerado pelo Vite deve ser minificado e dividido por rota. |
+
+## Usabilidade
+
+| ID | Descrição |
+|---|---|
+| RNF-F05 | A interface deve ser responsiva para telas a partir de 320px de largura. |
+| RNF-F06 | Todos os campos de formulário devem ter label visível e placeholder descritivo. |
+| RNF-F07 | Ações destrutivas devem exigir confirmação explícita do usuário antes de serem executadas. |
+| RNF-F08 | O usuário deve receber feedback visual para todas as ações — loading, sucesso e erro. |
+
+## Acessibilidade
+
+| ID | Descrição |
+|---|---|
+| RNF-F09 | Imagens devem ter atributo `alt` descritivo. |
+| RNF-F10 | O contraste entre texto e fundo deve seguir o mínimo recomendado pelo WCAG 2.1 nível AA. |
+
+## Segurança
+
+| ID | Descrição |
+|---|---|
+| RNF-F11 | O token JWT deve ser armazenado no `localStorage` com validação de expiração. |
+| RNF-F12 | Nenhuma informação sensível deve ser exibida em mensagens de erro visíveis ao usuário. |
+| RNF-F13 | Rotas protegidas devem redirecionar para o login caso o token esteja ausente ou expirado. |
+
+## Manutenibilidade
+
+| ID | Descrição |
+|---|---|
+| RNF-F14 | Componentes reutilizáveis devem ser isolados na pasta `components/` com responsabilidade única. |
+| RNF-F15 | Chamadas à API devem estar centralizadas na pasta `services/` — nunca dentro de componentes ou páginas. |
+| RNF-F16 | Variáveis de cor e tipografia devem ser definidas exclusivamente no `variables.css` via custom properties. |

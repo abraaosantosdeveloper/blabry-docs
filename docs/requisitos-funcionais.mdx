@@ -1,0 +1,42 @@
+---
+sidebar_position: 4
+title: Requisitos Funcionais
+---
+
+# Requisitos Funcionais
+
+## Autenticação
+
+| ID | Descrição | Status |
+|---|---|---|
+| RF01 | O sistema deve permitir cadastro com nome, apelido, e-mail, senha, data de nascimento e nacionalidade | Implementado |
+| RF02 | O sistema deve autenticar o usuário via e-mail e senha | Implementado |
+| RF03 | O login deve retornar um token JWT com validade de 24h | Implementado |
+| RF04 | Rotas protegidas devem redirecionar para o login caso o token esteja ausente | Implementado |
+
+## Feed
+
+| ID | Descrição | Status |
+|---|---|---|
+| RF05 | O usuário deve poder visualizar publicações de outros usuários no feed | Planejado |
+| RF06 | O usuário deve poder criar novas publicações de texto | Planejado |
+| RF07 | O usuário deve poder curtir publicações | Planejado |
+| RF08 | O usuário deve poder comentar em publicações | Planejado |
+
+## Chat
+
+| ID | Descrição | Status |
+|---|---|---|
+| RF09 | O usuário deve poder iniciar uma conversa privada com outro usuário | Planejado |
+| RF10 | Mensagens devem ser entregues em tempo real via WebSockets | Planejado |
+| RF11 | O histórico de mensagens deve ser carregado ao abrir uma conversa | Planejado |
+| RF12 | Mensagens devem ter status de entrega — pendente, enviada, recebida e lida | Planejado |
+
+## Perfil
+
+| ID | Descrição | Status |
+|---|---|---|
+| RF13 | O usuário deve poder visualizar e editar seu próprio perfil | Planejado |
+| RF14 | O usuário deve poder visualizar o perfil público de outros usuários | Planejado |
+| RF15 | O usuário deve poder seguir e deixar de seguir outros usuários | Planejado |
+| RF16 | O usuário deve poder excluir sua conta com confirmação em três etapas | Planejado |
