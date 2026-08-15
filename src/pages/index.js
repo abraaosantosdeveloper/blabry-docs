@@ -18,7 +18,7 @@ export default function Home() {
         </p>
         <Link
           className={styles.cta}
-          to="/docs/modelo-3c">
+          to="/docs/intro">
           Acessar documentação
         </Link>
       </main>
