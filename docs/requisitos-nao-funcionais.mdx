@@ -45,3 +45,38 @@ title: Requisitos Não Funcionais
 | RNF-F14 | Componentes reutilizáveis devem ser isolados na pasta `components/` com responsabilidade única. |
 | RNF-F15 | Chamadas à API devem estar centralizadas na pasta `services/` — nunca dentro de componentes ou páginas. |
 | RNF-F16 | Variáveis de cor e tipografia devem ser definidas exclusivamente no `variables.css` via custom properties. |
+
+---
+
+# Backend
+
+## Segurança
+
+| ID | Descrição |
+|---|---|
+| RNF-B01 | Senhas devem ser armazenadas exclusivamente como hash bcrypt, com no mínimo 12 *salt rounds*. |
+| RNF-B02 | O hash de senha não deve ser serializável — nenhuma resposta da API pode expô-lo, ainda que por descuido. |
+| RNF-B03 | O identificador do usuário deve ser obtido do token de autenticação, nunca do corpo ou dos parâmetros da requisição. |
+| RNF-B04 | Mensagens de erro de autenticação não devem revelar se um e-mail está cadastrado. |
+| RNF-B05 | Credenciais de serviços externos devem residir em variáveis de ambiente, jamais no código-fonte. |
+| RNF-B06 | A ausência de uma variável de ambiente obrigatória deve impedir a inicialização da aplicação. |
+| RNF-B07 | *Stack traces* não devem ser expostos em ambiente de produção. |
+
+## Manutenibilidade
+
+| ID | Descrição |
+|---|---|
+| RNF-B08 | Nenhuma instrução SQL deve existir fora da camada de repositórios. |
+| RNF-B09 | Repositórios devem receber a conexão com o banco por injeção de dependência. |
+| RNF-B10 | O tratamento de erros deve ser centralizado em um único middleware. |
+| RNF-B11 | A especificação OpenAPI deve ser gerada a partir de anotações no próprio código das rotas. |
+
+## Performance e integridade
+
+| ID | Descrição |
+|---|---|
+| RNF-B12 | Toda listagem deve ser paginada, com teto de registros por página definido no servidor. |
+| RNF-B13 | Consultas paginadas devem declarar ordenação explícita, garantindo estabilidade entre páginas. |
+| RNF-B14 | Contadores de curtidas e comentários devem ser derivados por agregação, não materializados em coluna. |
+| RNF-B15 | Consultas de listagem não devem executar uma requisição adicional por item retornado. |
+| RNF-B16 | Uploads devem ter limite de tamanho e lista de tipos aceitos verificados antes do envio ao serviço externo. |

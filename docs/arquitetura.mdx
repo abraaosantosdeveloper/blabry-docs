@@ -1,0 +1,154 @@
+---
+sidebar_position: 6
+title: Arquitetura
+---
+
+# Arquitetura
+
+Esta seção descreve a organização interna do Blabry — como o sistema foi decomposto em módulos, quais são as responsabilidades de cada um e quais decisões de projeto sustentam essa divisão.
+
+O critério que orienta todas as decisões aqui é o mesmo: **alta coesão dentro de cada módulo e baixo acoplamento entre eles**. Um módulo coeso concentra responsabilidades relacionadas; módulos pouco acoplados podem ser alterados de forma independente, o que reduz o custo de manutenção ao longo do tempo.
+
+---
+
+## Visão geral
+
+O sistema é dividido em três projetos independentes, cada um com seu próprio ciclo de build e deploy:
+
+| Projeto | Responsabilidade | Hospedagem |
+|---|---|---|
+| `blabry` | Interface do usuário (SPA em React) | GitHub Pages |
+| `blabry-api` | Regras de negócio e persistência | Railway |
+| `blabry-docs` | Documentação do projeto | GitHub Pages |
+
+A separação entre cliente e servidor é total: a comunicação acontece exclusivamente por HTTP sobre uma API REST, e nenhum dos lados conhece detalhes internos do outro. O contrato entre eles é a especificação OpenAPI publicada em `/docs`.
+
+---
+
+## Arquitetura do backend em camadas
+
+O backend adota uma **arquitetura em camadas**, na qual cada camada só conhece a camada imediatamente inferior. O fluxo de uma requisição é sempre o mesmo:
+
+```
+Request → Route → Controller → Service → Repository → MySQL
+Response ←        Controller ← Service ← Repository
+```
+
+| Camada | Responsabilidade | O que **não** pode fazer |
+|---|---|---|
+| **Routes** | Mapear URL e método HTTP para um controller | Conter lógica |
+| **Controllers** | Extrair dados do `req`, chamar o service, devolver o `res` | Acessar o banco ou aplicar regras |
+| **Services** | Regras de negócio, validações, orquestração | Escrever SQL |
+| **Repositories** | Única camada com SQL | Conhecer HTTP (`req`, `res`, status codes) |
+| **Models** | Estrutura e comportamento dos dados de domínio | Depender de Express ou do driver do banco |
+
+A restrição mais importante é a do repositório: **nenhuma query SQL existe fora da camada de repositórios**. Essa regra concentra o conhecimento sobre o esquema do banco em um único lugar. Uma mudança de coluna afeta um arquivo, não a aplicação inteira — é a aplicação direta do princípio de **ocultamento de informação**: o resto do sistema não sabe, e não precisa saber, como os dados estão armazenados.
+
+### Por que a camada de serviço existe mesmo quando não faz nada
+
+O `countries_service` apenas repassa a chamada ao repositório, sem nenhuma regra de negócio. Manter essa camada é deliberado.
+
+A camada existe para preservar a **estabilidade do contrato entre camadas**. Quando uma regra surgir — um cache em memória para a lista de países, por exemplo —, ela terá um lugar óbvio para morar, e nenhum controller precisará ser alterado. Suprimir a camada por ela estar temporariamente vazia trocaria uma linha de indireção hoje por uma refatoração em três arquivos amanhã.
+
+---
+
+## Decisões de projeto
+
+### Orientação a objetos nas camadas de dados
+
+Models e repositórios são implementados como classes; serviços e controllers permanecem como módulos de funções. A escolha não é estética — cada classe existe porque **encapsula algo**:
+
+- **Models** encapsulam o formato e as regras dos dados. O model `User` expõe `verificarSenha()` e mantém o hash da senha como propriedade não enumerável, de modo que ele não aparece em `JSON.stringify`, em espalhamento de objeto nem em logs. O risco de vazamento deixa de depender da disciplina de quem escreve cada resposta.
+- **Repositórios** encapsulam o acesso ao banco e recebem a conexão pelo construtor.
+
+Onde não há nada a encapsular, não há classe. Objetos literais continuam sendo a escolha correta para estruturas de dados sem comportamento.
+
+### Injeção de dependência
+
+Repositórios não importam o pool de conexões diretamente: recebem-no como parâmetro do construtor, e a instância é montada na camada de serviço.
+
+```js
+class CountriesRepository {
+  constructor(pool) { this.pool = pool; }
+}
+```
+
+Isso implementa o **princípio da inversão de dependência**: o repositório depende da abstração "algo que executa queries", não de um módulo concreto. A consequência prática é a testabilidade — um teste automatizado passa um objeto substituto no construtor, sem banco de dados e sem manipular o sistema de módulos do Node.
+
+### Padrão Repository
+
+Cada repositório traduz entre dois vocabulários: as colunas do banco (`full_name`, `password_hash`, em `snake_case`) e os atributos do domínio (`nome`, `senhaHash`, em `camelCase`). A tradução é feita pelos métodos `deLinha()` e `paraLinha()` do model, concentrando em um ponto único uma conversão que, espalhada, seria uma fonte recorrente de defeitos.
+
+### Tratamento centralizado de erros
+
+Nenhuma camada trata o erro localmente. Serviços lançam exceções anotadas com o status HTTP apropriado; controllers apenas repassam com `next(err)`; um único middleware ao fim da cadeia formata a resposta e decide, conforme o ambiente, se a mensagem original pode ser exposta.
+
+O resultado é que a política de erro é definida em um lugar só. Em produção, nenhum *stack trace* alcança o cliente.
+
+---
+
+## Autenticação
+
+A autenticação usa **JWT** em vez de sessões em servidor. A decisão decorre de uma restrição arquitetural: frontend e backend estão em domínios distintos, e uma solução baseada em cookies de sessão exigiria configuração de terceiros que os navegadores restringem progressivamente.
+
+O token tem validade de 24 horas e viaja no cabeçalho `Authorization`. O identificador do usuário é sempre extraído do token pelo middleware de autenticação, **nunca** do corpo ou dos parâmetros da requisição — caso contrário, qualquer cliente poderia agir em nome de outro usuário informando um identificador arbitrário.
+
+O middleware é registrado no `server.js` após as rotas públicas. Como o Express aplica middlewares apenas ao que é registrado depois deles, a ordem das linhas define quais rotas são públicas:
+
+```js
+app.use('/auth', require('./routes/auth_routes'));
+app.use('/countries', require('./routes/countries_routes'));
+
+app.use(autenticar);   // tudo abaixo exige token
+```
+
+A rota de países é pública por necessidade: ela alimenta o formulário de cadastro, acessado por quem ainda não possui token.
+
+---
+
+## Convenções da API
+
+### Paginação
+
+Toda listagem é paginada e devolve a mesma estrutura, independentemente do recurso:
+
+```json
+{ "posts": [ ... ], "pagina": 1, "totalPaginas": 4, "total": 37 }
+```
+
+A uniformidade permite que o cliente consuma qualquer listagem com o mesmo componente e o mesmo hook, sem tratamento específico por rota.
+
+Duas restrições acompanham a paginação:
+
+- O parâmetro `limite` tem teto definido no servidor. Sem esse limite, um cliente poderia solicitar a base inteira em uma requisição.
+- Toda consulta paginada declara ordenação explícita. Sem `ORDER BY`, o SGBD não garante ordem estável entre páginas, e o mesmo registro pode aparecer duas vezes ou nenhuma.
+
+### Contadores derivados
+
+Curtidas e comentários **não** são armazenados como colunas nas tabelas de publicação. São obtidos por agregação sobre `like_post` e `comment` no momento da consulta.
+
+A alternativa — manter um contador materializado — introduz o risco de divergência entre o contador e os registros que ele deveria refletir. Enquanto a agregação atender aos requisitos de desempenho, ela é preferível por eliminar essa classe de defeito.
+
+### Fonte única da lista de países
+
+A tabela `countries` é a única fonte da lista de nacionalidades. O cliente a obtém por `GET /countries` em vez de manter uma cópia própria.
+
+A motivação é de integridade: `user.nationality` é chave estrangeira para `countries.country`. Uma lista mantida no cliente poderia oferecer valores que o banco rejeita, produzindo falha no cadastro — um defeito causado exclusivamente por duplicação da fonte de verdade.
+
+---
+
+## Organização do frontend
+
+O frontend segue uma separação equivalente:
+
+| Pasta | Responsabilidade |
+|---|---|
+| `pages/` | Composição de tela e estado da página |
+| `components/` | Componentes reutilizáveis, com responsabilidade única |
+| `hooks/` | Lógica de estado reutilizável, sem apresentação |
+| `services/` | Comunicação HTTP com a API |
+| `styles/` | Tokens de design em custom properties |
+
+A regra correspondente à do repositório no backend é: **nenhuma chamada `fetch` fora de `services/`**. Componentes e páginas consomem funções nomeadas; a URL da API, os cabeçalhos, o tratamento de token expirado e a tradução de códigos HTTP em mensagens ficam concentrados em um módulo.
+
+Hooks como `usePaginado` isolam o protocolo de paginação: cancelam requisições obsoletas, acumulam ou substituem páginas conforme o caso de uso e expõem apenas o estado que a interface precisa renderizar.

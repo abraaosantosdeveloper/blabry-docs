@@ -1,9 +1,39 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 title: Changelog
 ---
 
 # Changelog
+
+---
+
+### v0.6.0
+*Agosto 2026*
+
+Interface autenticada reestruturada em torno de uma casca única — barra superior, menu lateral no desktop e navbar inferior no mobile —, com as rotas protegidas passando a compartilhar esse layout. Telas ainda não implementadas passam a sinalizar seu estado ao usuário.
+
+Feed e perfil implementados a partir do protótipo: publicação com seletor de emojis, curtidas, comentários, busca de usuários e paginação em todas as listagens. A camada de serviços do frontend foi reorganizada, e o protocolo de paginação isolado em um hook reutilizável.
+
+Especificação OpenAPI ampliada com os esquemas de publicação, comentário, perfil e paginação, e com os parâmetros de consulta comuns às listagens.
+
+Seção de Arquitetura adicionada à documentação, registrando a decomposição em camadas e as decisões de projeto que a sustentam.
+
+---
+
+### v0.5.0
+*Agosto 2026*
+
+Rota pública `GET /countries` implementada no backend, servindo a lista de nacionalidades diretamente da tabela `countries`. O formulário de cadastro passou a carregar as opções do banco em vez de mantê-las fixas no frontend, garantindo que só sejam oferecidos valores aceitos pela chave estrangeira de `user.nationality`.
+
+Tabela `countries` remodelada: o `id` inteiro foi removido e o código ISO 3166-1 alpha-3 passou a ser a chave primária, acompanhado da coluna `name` com o nome do país em português.
+
+Camada de persistência migrada para orientação a objetos — repositórios passaram a ser classes que recebem a conexão por injeção de dependência, e os models `User` e `Country` passaram a definir o formato exposto pela API. O hash de senha deixou de ser serializável, eliminando o risco de vazamento em respostas.
+
+Documentação da API publicada em `/docs` via Swagger UI, gerada a partir de anotações nas próprias rotas.
+
+:::note Sobre o salto de versão
+Até aqui o changelog acompanhava apenas o frontend. A partir desta entrada ele passa a registrar o projeto como um todo, adotando a versão do backend como referência única.
+:::
 
 ---
 

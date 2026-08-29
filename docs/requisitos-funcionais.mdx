@@ -10,18 +10,21 @@ title: Requisitos Funcionais
 | ID | Descrição | Status |
 |---|---|---|
 | RF01 | O sistema deve permitir cadastro com nome, apelido, e-mail, senha, data de nascimento e nacionalidade | Implementado |
-| RF02 | O sistema deve autenticar o usuário via e-mail e senha | Implementado |
+| RF02 | O sistema deve autenticar o usuário via e-mail **ou** @ do usuário, e senha | Implementado |
 | RF03 | O login deve retornar um token JWT com validade de 24h | Implementado |
 | RF04 | Rotas protegidas devem redirecionar para o login caso o token esteja ausente | Implementado |
+| RF17 | O formulário de cadastro deve oferecer apenas as nacionalidades registradas no banco de dados | Implementado |
 
 ## Feed
 
 | ID | Descrição | Status |
 |---|---|---|
-| RF05 | O usuário deve poder visualizar publicações de outros usuários no feed | Planejado |
-| RF06 | O usuário deve poder criar novas publicações de texto | Planejado |
-| RF07 | O usuário deve poder curtir publicações | Planejado |
-| RF08 | O usuário deve poder comentar em publicações | Planejado |
+| RF05 | O usuário deve poder visualizar publicações de outros usuários no feed | Em desenvolvimento |
+| RF06 | O usuário deve poder criar novas publicações de texto | Em desenvolvimento |
+| RF07 | O usuário deve poder curtir publicações | Em desenvolvimento |
+| RF08 | O usuário deve poder comentar em publicações | Em desenvolvimento |
+| RF18 | O feed deve ser paginado, carregando publicações sob demanda | Em desenvolvimento |
+| RF19 | Os contadores de curtidas e comentários devem refletir os registros persistidos, e não valores mantidos no cliente | Em desenvolvimento |
 
 ## Chat
 
@@ -40,3 +43,13 @@ title: Requisitos Funcionais
 | RF14 | O usuário deve poder visualizar o perfil público de outros usuários | Planejado |
 | RF15 | O usuário deve poder seguir e deixar de seguir outros usuários | Planejado |
 | RF16 | O usuário deve poder excluir sua conta com confirmação em três etapas | Planejado |
+| RF20 | O usuário deve poder definir uma foto de perfil, com recorte antes do envio | Em desenvolvimento |
+| RF21 | O usuário deve poder registrar uma bio em seu perfil | Em desenvolvimento |
+
+## Busca
+
+| ID | Descrição | Status |
+|---|---|---|
+| RF22 | O usuário deve poder pesquisar outros usuários por nome ou @ | Em desenvolvimento |
+| RF23 | Os resultados da busca devem ser paginados | Em desenvolvimento |
+| RF24 | Páginas ainda não implementadas devem informar seu estado de desenvolvimento ao usuário | Implementado |
