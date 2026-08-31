@@ -7,6 +7,27 @@ title: Changelog
 
 ---
 
+### v0.9.1
+*Agosto 2026*
+
+Correções vindas de uma auditoria de segurança.
+
+**Não havia limitação de requisições em lugar nenhum.** `POST /auth/login` aceitava tentativas infinitas, e a única defesa era a lentidão do bcrypt — que é também o vetor de ataque, porque cada tentativa consome cerca de 250ms de CPU e algumas dezenas em paralelo derrubam a instância. Agora há limite por janela fixa: vinte tentativas a cada dez minutos nas rotas de autenticação, dez nas que disparam e-mail, e um teto geral de seiscentas.
+
+O limitador foi escrito sem dependência porque a aplicação roda em uma instância, onde um contador em memória é exato. Com mais de uma instância nenhum contador local serve, e a resposta é um store compartilhado — não uma biblioteca diferente. Ele depende de `trust proxy`: atrás do proxy do Railway, sem essa configuração, todos os visitantes chegam com o mesmo endereço, dividem um único balde, e o primeiro a estourar o limite tranca os demais.
+
+**O middleware de erro mascarava toda mensagem em produção.** A intenção era não vazar detalhe de exceção; o efeito foi que "É necessário aceitar a política de privacidade" chegava ao usuário como "Erro interno do servidor", e a interface caía no texto genérico por status. Passa a mascarar apenas os 5xx. A distinção é de origem, não de gravidade: os 4xx são frases escritas para o usuário ler, os 5xx carregam mensagem de exceção, que pode expor nome de tabela ou caminho de arquivo.
+
+**Excluir a conta não removia dado pessoal algum.** A operação preenchia `deleted_at` e parava aí — e-mail, nome, data de nascimento, nacionalidade, bio, foto e hash de senha permaneciam no banco indefinidamente, contra o que a política de privacidade promete. E como `email` e `alias` são únicos, quem excluísse a conta nunca mais conseguiria se cadastrar com o mesmo endereço.
+
+Agora o conteúdo publicado é apagado de fato, e o cadastro é anonimizado, liberando o e-mail e o `@`. Anonimizar em vez de apagar a linha é decisão deliberada: o `DELETE` dispararia `ON DELETE CASCADE` sobre `like_post` e removeria as curtidas dadas em publicações de **terceiros**, derrubando contadores alheios retroativamente. Encerrar a própria conta não pode alterar conteúdo de outras pessoas. O artigo 12 da LGPD coloca dado anonimizado fora do alcance da lei, de modo que a obrigação de eliminação é cumprida.
+
+A migração 005 torna `birth_date` e `nationality` anuláveis — a obrigatoriedade no cadastro é regra do serviço, não da coluna.
+
+Dois itens da auditoria seguem em aberto, por escolha: trocar a senha ainda não invalida sessões já abertas, e o tempo de resposta do login permite descobrir quais e-mails têm conta. Ambos mexem em autenticação e ficaram para depois deste ciclo de deploy.
+
+---
+
 ### v0.9.0
 *Agosto 2026*
 
