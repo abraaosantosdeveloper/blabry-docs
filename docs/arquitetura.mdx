@@ -58,7 +58,7 @@ A camada existe para preservar a **estabilidade do contrato entre camadas**. Qua
 
 Models e repositórios são implementados como classes; serviços e controllers permanecem como módulos de funções. A escolha não é estética — cada classe existe porque **encapsula algo**:
 
-- **Models** encapsulam o formato e as regras dos dados. O model `User` expõe `verificarSenha()` e mantém o hash da senha como propriedade não enumerável, de modo que ele não aparece em `JSON.stringify`, em espalhamento de objeto nem em logs. O risco de vazamento deixa de depender da disciplina de quem escreve cada resposta.
+- **Models** encapsulam o formato e as regras dos dados. O model `User` expõe `verifyPassword()` e mantém o hash da senha como propriedade não enumerável, de modo que ele não aparece em `JSON.stringify`, em espalhamento de objeto nem em logs. O risco de vazamento deixa de depender da disciplina de quem escreve cada resposta.
 - **Repositórios** encapsulam o acesso ao banco e recebem a conexão pelo construtor.
 
 Onde não há nada a encapsular, não há classe. Objetos literais continuam sendo a escolha correta para estruturas de dados sem comportamento.
@@ -77,7 +77,7 @@ Isso implementa o **princípio da inversão de dependência**: o repositório de
 
 ### Padrão Repository
 
-Cada repositório traduz entre dois vocabulários: as colunas do banco (`full_name`, `password_hash`, em `snake_case`) e os atributos do domínio (`nome`, `senhaHash`, em `camelCase`). A tradução é feita pelos métodos `deLinha()` e `paraLinha()` do model, concentrando em um ponto único uma conversão que, espalhada, seria uma fonte recorrente de defeitos.
+Cada repositório traduz entre dois vocabulários: as colunas do banco (`full_name`, `password_hash`, em `snake_case`) e os atributos do domínio (`name`, `passwordHash`, em `camelCase`). A tradução é feita pelos métodos `fromRow()` e `toRow()` do model, concentrando em um ponto único uma conversão que, espalhada, seria uma fonte recorrente de defeitos.
 
 ### Tratamento centralizado de erros
 
@@ -108,25 +108,29 @@ A rota de países é pública por necessidade: ela alimenta o formulário de cad
 
 ## Convenções da API
 
-### Idioma dos caminhos e dos campos
+### Idioma da API
 
-Os caminhos de recurso são em inglês — `/users`, `/posts`, `/comments` —, acompanhando os nomes das tabelas. Os campos do JSON são em português — `nome`, `curtidas`, `seguidores` —, acompanhando o vocabulário do domínio e a interface.
+A API é inteiramente em inglês: caminhos (`/users`, `/posts`, `/auth/signup`), campos do JSON (`name`, `likes`, `followers`), identificadores do código e colunas do banco.
 
-A divisão não é inconsistência: identificador de recurso e vocabulário de aplicação são coisas distintas. O caminho nomeia a entidade persistida; o campo nomeia o conceito que o usuário vê.
+A versão anterior misturava os dois idiomas — caminhos em inglês, campos em português — sob o argumento de que identificador de recurso e vocabulário de aplicação seriam coisas distintas. Na prática o custo apareceu em cada fronteira: `paraPerfil` devolvia `alias` enquanto `toJSON` devolvia `apelido`, dois nomes para o mesmo dado, e ninguém percebeu por meses. Um idioma só elimina a categoria inteira de erro.
+
+**Português permanece em dois lugares, de propósito:** nas mensagens de erro, que são lidas pelo usuário final, e nos comentários do código, que são lidos por quem o mantém. Nenhum dos dois é interface de programação.
+
+A tradução completa está em `back_end/docs/VOCABULARIO.md`, e é a fonte única para os dois repositórios.
 
 ### Paginação
 
 Toda listagem é paginada e devolve a mesma estrutura, independentemente do recurso:
 
 ```json
-{ "posts": [ ... ], "pagina": 1, "totalPaginas": 4, "total": 37 }
+{ "posts": [ ... ], "page": 1, "totalPages": 4, "total": 37 }
 ```
 
 A uniformidade permite que o cliente consuma qualquer listagem com o mesmo componente e o mesmo hook, sem tratamento específico por rota.
 
 Duas restrições acompanham a paginação:
 
-- O parâmetro `limite` tem teto definido no servidor. Sem esse limite, um cliente poderia solicitar a base inteira em uma requisição.
+- O parâmetro `limit` tem teto definido no servidor. Sem esse limite, um cliente poderia solicitar a base inteira em uma requisição.
 - Toda consulta paginada declara ordenação explícita. Sem `ORDER BY`, o SGBD não garante ordem estável entre páginas, e o mesmo registro pode aparecer duas vezes ou nenhuma.
 
 ### Autoria e prazos
@@ -201,7 +205,7 @@ ainda exigiria um servidor que entregasse de fato, com reputação de IP, SPF,
 DKIM e DMARC. Resend é um provedor — uma chamada HTTP com chave de API, sem
 porta SMTP nem conexão persistente. A troca de fornecedor, se ocorrer, mexe em
 um arquivo só: `config/email.js` é a única parte do sistema que conhece o
-provedor; o resto conhece apenas `enviarEmail({ para, assunto, html, texto })`.
+provedor; o resto conhece apenas `sendEmail({ to, subject, html, text })`.
 
 ### Exclusão lógica de conta
 

@@ -7,6 +7,25 @@ title: Changelog
 
 ---
 
+### v0.9.0
+*Agosto 2026*
+
+A API passou a ser inteiramente em inglês.
+
+Antes ela misturava dois idiomas: caminhos de recurso em inglês, campos do JSON em português. A justificativa era que identificador de recurso e vocabulário de aplicação seriam coisas distintas — e ela não se sustentou. O custo apareceu em cada fronteira, e o exemplo que decidiu a questão foi encontrado durante a própria refatoração: `paraPerfil` devolvia `alias` enquanto `toJSON` devolvia `apelido`, dois nomes para o mesmo dado dependendo do endpoint, sem que ninguém notasse por meses. Um idioma só elimina a categoria inteira de erro.
+
+A mudança atravessa as três camadas. Arquivos e importações; identificadores internos — `deLinha`/`paraLinha` viram `fromRow`/`toRow`, `buscarPerfil` vira `findProfile`; e o contrato público, que é o que quebra clientes: campos (`nome` → `name`, `curtidas` → `likes`, `seguidores` → `followers`), envelope de erro (`{ erro }` → `{ error }`), campo do upload multipart (`foto` → `photo`) e caminhos de rota — `/auth/cadastro` virou `/auth/signup`, `/auth/verificar-email` virou `/auth/verify-email`, `/users/me/exclusao/codigo` virou `/users/me/deletion/code`.
+
+Os apelidos de coluna no SQL acompanharam: `seguindo_este` virou `is_following`, `te_segue` virou `follows_you`. As colunas em si não mudaram — já estavam em inglês, e a tradução entre elas e o domínio continua sendo responsabilidade dos repositórios.
+
+Duas coisas permanecem em português, por decisão e não por omissão: as mensagens de erro, que o usuário final lê, e os comentários do código, que quem mantém lê. Nenhum dos dois é interface de programação.
+
+A variável de ambiente `EMAIL_REMETENTE` passou a `EMAIL_SENDER`.
+
+O vocabulário completo virou documento — `back_end/docs/VOCABULARIO.md` —, e é a fonte única para os dois repositórios. Um nome que não estiver lá é um nome que ninguém decidiu.
+
+---
+
 ### v0.8.0
 *Agosto 2026*
 

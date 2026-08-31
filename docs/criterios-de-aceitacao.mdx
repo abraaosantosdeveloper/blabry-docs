@@ -53,7 +53,7 @@ estão aqui porque o critério vem antes do código, não depois.
 ### CA03 · Aceite forjado fora da interface — RF33
 
 > **Dado:** um cliente HTTP qualquer, fora do formulário da aplicação;
-> **Quando:** ele envia `POST /auth/cadastro` sem o campo `aceitouPolitica`,
+> **Quando:** ele envia `POST /auth/signup` sem o campo `acceptedPolicy`,
 > com `false`, ou com a **string** `"true"`;
 > **Então:** o servidor responde **400**, nenhuma conta é criada, e a
 > mensagem informa que o aceite é obrigatório.
