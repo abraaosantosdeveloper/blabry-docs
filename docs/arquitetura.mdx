@@ -108,6 +108,12 @@ A rota de países é pública por necessidade: ela alimenta o formulário de cad
 
 ## Convenções da API
 
+### Idioma dos caminhos e dos campos
+
+Os caminhos de recurso são em inglês — `/users`, `/posts`, `/comments` —, acompanhando os nomes das tabelas. Os campos do JSON são em português — `nome`, `curtidas`, `seguidores` —, acompanhando o vocabulário do domínio e a interface.
+
+A divisão não é inconsistência: identificador de recurso e vocabulário de aplicação são coisas distintas. O caminho nomeia a entidade persistida; o campo nomeia o conceito que o usuário vê.
+
 ### Paginação
 
 Toda listagem é paginada e devolve a mesma estrutura, independentemente do recurso:
@@ -123,6 +129,20 @@ Duas restrições acompanham a paginação:
 - O parâmetro `limite` tem teto definido no servidor. Sem esse limite, um cliente poderia solicitar a base inteira em uma requisição.
 - Toda consulta paginada declara ordenação explícita. Sem `ORDER BY`, o SGBD não garante ordem estável entre páginas, e o mesmo registro pode aparecer duas vezes ou nenhuma.
 
+### Autoria e prazos
+
+Operações de edição e exclusão restringem a autoria na própria instrução SQL — `WHERE id = ? AND user_id = ?` — em vez de verificar antes e agir depois. Não existe intervalo entre a verificação e a escrita, e portanto não existe estado que possa mudar entre as duas.
+
+Consultas anteriores à operação, quando existem, servem apenas para distinguir a resposta: se nada foi afetado, é preciso saber se o recurso não existe (404) ou se pertence a outra pessoa (403). Elas informam a mensagem; não autorizam a ação.
+
+Prazos — como a janela de quinze minutos para edição — são avaliados pelo relógio do servidor. A interface esconde a opção quando o prazo expira, mas isso é conveniência: o relógio do cliente é ajustável, e a regra que vale é a do banco.
+
+### Campos atualizáveis
+
+Rotas de atualização parcial recebem apenas os campos que mudaram. O conjunto de campos que podem virar coluna é definido no servidor, em lista explícita, e chaves fora dela são descartadas.
+
+A alternativa — montar a instrução a partir das chaves enviadas pelo cliente — funciona e é comum, mas permite que qualquer coluna da tabela seja escrita, inclusive o hash da senha ou o identificador do registro. Como nome de coluna não pode ser parâmetro de instrução preparada, ele é concatenado à consulta; por isso a regra é que identificadores dinâmicos venham sempre de lista definida no código, nunca da requisição.
+
 ### Contadores derivados
 
 Curtidas e comentários **não** são armazenados como colunas nas tabelas de publicação. São obtidos por agregação sobre `like_post` e `comment` no momento da consulta.
@@ -136,6 +156,16 @@ A tabela `countries` é a única fonte da lista de nacionalidades. O cliente a o
 A motivação é de integridade: `user.nationality` é chave estrangeira para `countries.country`. Uma lista mantida no cliente poderia oferecer valores que o banco rejeita, produzindo falha no cadastro — um defeito causado exclusivamente por duplicação da fonte de verdade.
 
 ---
+
+## Evolução do esquema
+
+O arquivo `database.sql` descreve o **estado final** do banco e cria tudo do zero. Ele usa `create table if not exists`, o que significa que reexecutá-lo em um banco existente não tem efeito algum — a instrução ignora a tabela inteira quando ela já existe, sem comparar colunas.
+
+Por isso as alterações posteriores vivem em `database_assets/migrations/`, em arquivos numerados e imutáveis, que descrevem o **caminho** de um estado ao outro. Os dois se complementam: o primeiro atende quem cria o banco agora, os segundos atendem quem já tem um.
+
+A separação nasceu de um sintoma concreto: uma coluna adicionada ao arquivo de esquema, mas não ao banco em execução, produz uma falha em tempo de consulta cuja causa não é evidente — o código está correto e o arquivo está correto; o que diverge é o banco.
+
+Alterações de esquema também têm custo proporcional ao volume da tabela. Adicionar um índice de texto completo reconstrói a tabela; adicionar uma coluna, dependendo da versão do SGBD, também. Com tabelas vazias isso leva frações de segundo; com dados em produção, exige janela de manutenção. Daí a prática de antecipar colunas cuja necessidade já é conhecida, mesmo antes de a funcionalidade existir.
 
 ## Organização do frontend
 
