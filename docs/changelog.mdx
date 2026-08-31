@@ -12,7 +12,9 @@ title: Changelog
 
 Correções vindas de uma auditoria de segurança.
 
-**Não havia limitação de requisições em lugar nenhum.** `POST /auth/login` aceitava tentativas infinitas, e a única defesa era a lentidão do bcrypt — que é também o vetor de ataque, porque cada tentativa consome cerca de 250ms de CPU e algumas dezenas em paralelo derrubam a instância. Agora há limite por janela fixa: vinte tentativas a cada dez minutos nas rotas de autenticação, dez nas que disparam e-mail, e um teto geral de seiscentas.
+**Não havia limitação de requisições em lugar nenhum.** `POST /auth/login` aceitava tentativas infinitas, e a única defesa era a lentidão do bcrypt — que é também o vetor de ataque, porque cada tentativa consome cerca de 250ms de CPU e algumas dezenas em paralelo derrubam a instância. Agora há limite por janela fixa, e cada rota sensível tem o próprio balde: trinta tentativas de login a cada dez minutos, dez cadastros, trinta verificações de código, dez pedidos de e-mail, e um teto geral de seiscentas requisições.
+
+Os baldes são separados por um motivo prático que só apareceu quando a suíte de testes começou a falhar com 429: um balde único significa que cada usuário novo gasta cadastro, verificação e login antes de fazer qualquer coisa. Atrás de uma rede compartilhada — universidade, escritório, operadora móvel —, onde centenas de pessoas saem pelo mesmo endereço, isso trancaria a quinta pessoa a se cadastrar.
 
 O limitador foi escrito sem dependência porque a aplicação roda em uma instância, onde um contador em memória é exato. Com mais de uma instância nenhum contador local serve, e a resposta é um store compartilhado — não uma biblioteca diferente. Ele depende de `trust proxy`: atrás do proxy do Railway, sem essa configuração, todos os visitantes chegam com o mesmo endereço, dividem um único balde, e o primeiro a estourar o limite tranca os demais.
 
