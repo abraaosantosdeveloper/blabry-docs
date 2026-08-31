@@ -7,6 +7,23 @@ title: Changelog
 
 ---
 
+### v0.7.0
+*Agosto 2026*
+
+Feed implementado de ponta a ponta: publicação, listagem paginada, curtidas, comentários e exclusão. Curtidas e comentários são contados por agregação no banco a cada consulta, e não mantidos como colunas — o que elimina a possibilidade de o contador divergir dos registros que ele deveria refletir.
+
+Busca dividida em duas abas, publicações e usuários, com o `@` funcionando como atalho para a aba de usuários. A busca em publicações usa índice FULLTEXT; a de usuários usa comparação por prefixo. Ambas paginadas.
+
+Edição de perfil e de comentários. Comentários podem ser editados apenas pelo autor e apenas nos primeiros quinze minutos, com o prazo medido pelo relógio do servidor; uma vez editados, passam a ser exibidos como tal, porque quem respondeu reagiu ao texto anterior. A troca de e-mail exige a senha atual, por ser o meio de recuperação da conta.
+
+Foto de perfil pode ser trocada a qualquer momento, com recorte antes do envio.
+
+Seletor de emojis com o conjunto Unicode completo, categorias e busca, carregado sob demanda para não pesar no *bundle* inicial.
+
+Esquema de banco passou a ser versionado em migrações numeradas, separando o estado final desejado do caminho para alcançá-lo. Índices adicionados para as consultas de feed, comentários e busca.
+
+---
+
 ### v0.6.0
 *Agosto 2026*
 
