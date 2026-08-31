@@ -1,9 +1,34 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 title: Changelog
 ---
 
 # Changelog
+
+---
+
+### v0.8.0
+*Agosto 2026*
+
+Privacidade e integridade de conta.
+
+O perfil público deixou de expor dados pessoais. E-mail, data de nascimento e nacionalidade passam a existir apenas no próprio perfil, e a API os devolve como `null` para visitantes — a interface não esconde uma seção preenchida, ela simplesmente não a recebe. Uma caixa vazia com um travessão anunciaria que há algo ali; o perfil público termina na bio.
+
+Política de privacidade em página própria e pública, com coleta e tratamento de dados, criptografias empregadas, direitos do titular e os serviços de infraestrutura no rodapé. O aceite passou a ser obrigatório no cadastro, bloqueado na interface e validado de novo no servidor — a interface é conveniência, a API é a fronteira real. A comparação do aceite é estrita com o booleano `true`, de modo que a string `"true"`, que é o que chega quando um formulário serializa um booleano sem cuidado, seja recusada.
+
+Publicações ganharam página própria em `/post/:id`, com os dados do autor, o conteúdo e os comentários já expandidos. O horário do cartão passou a ser o caminho até ela, seguindo a convenção da categoria e evitando transformar o cartão inteiro em link — o que quebraria os links do autor e os botões aninhados. O resultado da busca por publicações passou a levar à publicação, e não ao perfil de quem escreveu.
+
+O perfil passou a listar as publicações do usuário, logo abaixo das informações, no próprio perfil e no de terceiros. É o mesmo componente nos dois casos: o que muda — poder editar ou excluir — já é decidido comparando o autor da publicação com o usuário do token.
+
+Verificação por código de seis dígitos enviado ao e-mail, em três fluxos: confirmação da conta recém-criada, redefinição de senha e exclusão de conta. O cadastro deixou de devolver token; a conta nasce pendente e o login responde 403 até a confirmação — status distinto do 401 de credencial errada, e checado **depois** da senha, para que não se possa descobrir quais e-mails têm conta aqui.
+
+Os códigos são gravados como hash, valem quinze minutos, servem uma única vez e toleram cinco tentativas erradas, com intervalo mínimo de sessenta segundos entre pedidos. O consumo acontece em um `UPDATE ... WHERE used_at IS NULL`, de modo que duas requisições simultâneas com o mesmo código não passem as duas. As rotas de reenvio respondem igual para e-mail cadastrado e não cadastrado, para não virarem um verificador de quem tem conta na plataforma.
+
+Exclusão de conta implementada, em três etapas: entender o efeito, informar o código recebido por e-mail e digitar a palavra de confirmação. A exclusão é lógica — um `DELETE` físico arrastaria em cascata comentários de terceiros feitos em publicações do usuário, apagando conteúdo de quem não pediu nada.
+
+Envio de e-mail transacional por Resend, escolhido no lugar de Nodemailer: o segundo é um transporte SMTP e ainda exigiria um servidor que entregasse de fato, com reputação de IP, SPF, DKIM e DMARC configurados. Em desenvolvimento, sem chave configurada, os e-mails são impressos no console.
+
+Documentação ganhou a seção de Critérios de Aceitação, com os cenários escritos em BDD — Dado, Quando, Então.
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 title: Arquitetura
 ---
 
@@ -154,6 +154,69 @@ A alternativa — manter um contador materializado — introduz o risco de diver
 A tabela `countries` é a única fonte da lista de nacionalidades. O cliente a obtém por `GET /countries` em vez de manter uma cópia própria.
 
 A motivação é de integridade: `user.nationality` é chave estrangeira para `countries.country`. Uma lista mantida no cliente poderia oferecer valores que o banco rejeita, produzindo falha no cadastro — um defeito causado exclusivamente por duplicação da fonte de verdade.
+
+### Segregação de interfaces no perfil
+
+O modelo `User` define **um** método de apresentação, `paraPerfil({ proprio })`,
+e é ele quem decide o que sai. No perfil público, `email`, `nascimento` e
+`nacionalidade` saem como `null`; no próprio perfil, saem preenchidos.
+
+A alternativa — devolver tudo e deixar a interface esconder — falha por
+construção: o dado já saiu do servidor, e qualquer pessoa capaz de abrir as
+ferramentas do navegador o lê. Esconder na interface é decoração; a decisão
+tem de acontecer onde a resposta é montada.
+
+Na interface, a seção inteira deixa de ser renderizada em vez de exibir campos
+vazios. Uma caixa com um travessão anuncia que existe algo escondido ali — o
+perfil público simplesmente termina na bio.
+
+### Verificação por código enviado ao e-mail
+
+Três operações exigem provar acesso à caixa de entrada: ativar a conta,
+redefinir a senha e excluir a conta. As três compartilham a mesma tabela
+`verification_code`, distinguidas por uma coluna `purpose`.
+
+As decisões que sustentam o mecanismo:
+
+- **O código é gravado como hash**, nunca em texto. Se a tabela vazar, os
+  hashes não abrem conta alguma. O custo do bcrypt é menor que o da senha (8
+  contra 12), porque aqui a lentidão do hash não é a defesa principal — o
+  limite de tentativas é.
+- **Cinco tentativas erradas invalidam o código.** Seis dígitos são um milhão
+  de combinações, adivinháveis por script em minutos sem esse limite.
+- **Uso único garantido no `UPDATE`.** O consumo é
+  `UPDATE ... WHERE id = ? AND used_at IS NULL`, e o serviço só prossegue se
+  afetou uma linha. Uma checagem anterior seguida de escrita deixaria uma
+  janela onde duas requisições simultâneas passariam.
+- **Respostas uniformes.** As rotas de reenvio respondem 200 para e-mail com e
+  sem conta, e as falhas de código — errado, expirado, usado, sem tentativas —
+  compartilham uma única mensagem. Diferenciá-las transformaria as rotas em um
+  verificador de cadastro e diria a quem tenta adivinhar se vale a pena
+  continuar.
+- **A confirmação é checada depois da senha, no login.** Antes dela, o status
+  403 revelaria a existência da conta a quem não conhece a credencial.
+
+O envio usa **Resend**, e não Nodemailer. Nodemailer é um transporte SMTP:
+ainda exigiria um servidor que entregasse de fato, com reputação de IP, SPF,
+DKIM e DMARC. Resend é um provedor — uma chamada HTTP com chave de API, sem
+porta SMTP nem conexão persistente. A troca de fornecedor, se ocorrer, mexe em
+um arquivo só: `config/email.js` é a única parte do sistema que conhece o
+provedor; o resto conhece apenas `enviarEmail({ para, assunto, html, texto })`.
+
+### Exclusão lógica de conta
+
+`DELETE /users/me` preenche `deleted_at` em vez de remover a linha. Três razões:
+
+1. Todas as consultas já filtram por `deleted_at IS NULL`, então a conta some
+   da aplicação no mesmo instante.
+2. Um `DELETE` físico arrastaria em cascata publicações, comentários e
+   curtidas — inclusive comentários de **terceiros** em publicações do usuário,
+   apagando conteúdo de quem não pediu nada.
+3. Chaves estrangeiras apontando para o usuário continuam íntegras.
+
+A operação exige **duas** provas: o token e o código enviado ao e-mail. Token
+sozinho prova que a sessão existe, não que o dono está diante da tela — e a
+ação é irreversível.
 
 ---
 

@@ -14,6 +14,11 @@ title: Requisitos Funcionais
 | RF03 | O login deve retornar um token JWT com validade de 24h | Implementado |
 | RF04 | Rotas protegidas devem redirecionar para o login caso o token esteja ausente | Implementado |
 | RF17 | O formulário de cadastro deve oferecer apenas as nacionalidades registradas no banco de dados | Implementado |
+| RF32 | O cadastro deve exigir o aceite explícito da política de privacidade | Implementado |
+| RF33 | O sistema deve validar o aceite da política também no servidor, independentemente da interface | Implementado |
+| RF34 | A conta recém-criada deve ter o e-mail confirmado por código antes de permitir o login | Implementado |
+| RF35 | O usuário deve poder solicitar o reenvio do código de confirmação | Implementado |
+| RF36 | O usuário deve poder redefinir a senha por código enviado ao e-mail | Implementado |
 
 ## Feed
 
@@ -28,7 +33,8 @@ title: Requisitos Funcionais
 | RF25 | O autor deve poder excluir suas próprias publicações e comentários | Implementado |
 | RF26 | O autor deve poder editar seus comentários nos primeiros quinze minutos após a publicação | Implementado |
 | RF27 | Conteúdo editado deve ser identificado como tal para os demais usuários | Implementado |
-| RF28 | O autor deve poder editar suas publicações nos primeiros quinze minutos | Planejado |
+| RF28 | O autor deve poder editar suas publicações nos primeiros quinze minutos | Implementado |
+| RF37 | Cada publicação deve ter uma página própria, com autor, conteúdo e comentários | Implementado |
 
 ## Chat
 
@@ -43,10 +49,14 @@ title: Requisitos Funcionais
 
 | ID | Descrição | Status |
 |---|---|---|
-| RF13 | O usuário deve poder visualizar e editar seu próprio perfil | Planejado |
-| RF14 | O usuário deve poder visualizar o perfil público de outros usuários | Planejado |
-| RF15 | O usuário deve poder seguir e deixar de seguir outros usuários | Planejado |
-| RF16 | O usuário deve poder excluir sua conta com confirmação em três etapas | Planejado |
+| RF13 | O usuário deve poder visualizar e editar seu próprio perfil | Implementado |
+| RF14 | O usuário deve poder visualizar o perfil público de outros usuários | Implementado |
+| RF15 | O usuário deve poder seguir e deixar de seguir outros usuários | Implementado |
+| RF16 | O usuário deve poder excluir sua conta com confirmação em três etapas | Implementado |
+| RF38 | O perfil público não deve expor e-mail, data de nascimento nem nacionalidade | Implementado |
+| RF39 | O perfil deve listar as publicações do usuário, no próprio perfil e no de terceiros | Implementado |
+| RF40 | A exclusão de conta deve exigir código enviado ao e-mail cadastrado | Implementado |
+| RF41 | A política de privacidade deve estar acessível a partir de "Conta e segurança" | Implementado |
 | RF20 | O usuário deve poder definir uma foto de perfil, com recorte antes do envio | Implementado |
 | RF21 | O usuário deve poder registrar uma bio em seu perfil | Implementado |
 | RF29 | O usuário deve poder editar nome, bio, e-mail, nascimento e nacionalidade | Implementado |
@@ -58,5 +68,6 @@ title: Requisitos Funcionais
 |---|---|---|
 | RF22 | O usuário deve poder pesquisar outros usuários por nome ou @ | Implementado |
 | RF31 | O usuário deve poder pesquisar publicações pelo conteúdo | Implementado |
+| RF42 | O resultado da busca por publicações deve levar à página da publicação | Implementado |
 | RF23 | Os resultados da busca devem ser paginados | Implementado |
 | RF24 | Páginas ainda não implementadas devem informar seu estado de desenvolvimento ao usuário | Implementado |
