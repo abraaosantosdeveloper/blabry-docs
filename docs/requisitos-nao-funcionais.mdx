@@ -63,6 +63,16 @@ title: Requisitos Não Funcionais
 | RNF-B07 | *Stack traces* não devem ser expostos em ambiente de produção. |
 | RNF-B17 | Dados pessoais — e-mail e data de nascimento — não devem ser expostos em perfis públicos, e a regra deve ser aplicada em um único ponto do sistema. |
 | RNF-B18 | Erros de responsabilidade do cliente (4xx) não devem ser registrados como falha do servidor nos logs. |
+| RNF-B19 | Prazos e janelas de tempo devem ser avaliados pelo relógio do servidor, nunca pelo do cliente. |
+| RNF-B20 | O cliente não deve determinar quais colunas são gravadas: campos atualizáveis devem constar de lista definida no servidor. |
+
+## Evolução do esquema
+
+| ID | Descrição |
+|---|---|
+| RNF-B21 | Alterações de esquema devem ser registradas em migrações numeradas e imutáveis, versionadas junto ao código. |
+| RNF-B22 | Consultas de listagem e de busca devem ser cobertas por índices correspondentes à sua ordenação e aos seus filtros. |
+| RNF-B23 | O banco deve usar codificação de quatro bytes por caractere, comportando acentuação e emojis. |
 
 ## Manutenibilidade
 
