@@ -1,0 +1,345 @@
+<!doctype html><html lang=en dir=ltr class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-criterios-de-aceitacao" data-has-hydrated=false><head><meta charset=UTF-8><meta name=generator content="Docusaurus v3.10.2"><title data-rh=true>Critérios de Aceitação (BDD) | Blabry Docs</title><meta data-rh=true name=viewport content="width=device-width, initial-scale=1.0"/><meta data-rh=true name=twitter:card content=summary_large_image /><meta data-rh=true property=og:image content=https://abraaosantosdeveloper.github.io/blabry-docs/img/docusaurus-social-card.jpg /><meta data-rh=true name=twitter:image content=https://abraaosantosdeveloper.github.io/blabry-docs/img/docusaurus-social-card.jpg /><meta data-rh=true property=og:url content=https://abraaosantosdeveloper.github.io/blabry-docs/docs/criterios-de-aceitacao /><meta data-rh=true property=og:locale content=en /><meta data-rh=true name=docusaurus_locale content=en /><meta data-rh=true name=docsearch:language content=en /><meta data-rh=true name=docusaurus_version content=current /><meta data-rh=true name=docusaurus_tag content=docs-default-current /><meta data-rh=true name=docsearch:version content=current /><meta data-rh=true name=docsearch:docusaurus_tag content=docs-default-current /><meta data-rh=true property=og:title content="Critérios de Aceitação (BDD) | Blabry Docs"/><meta data-rh=true name=description content="Os requisitos funcionais dizem o que o sistema faz. Este documento diz"/><meta data-rh=true property=og:description content="Os requisitos funcionais dizem o que o sistema faz. Este documento diz"/><link data-rh=true rel=icon href=/blabry-docs/img/favicon.svg /><link data-rh=true rel=canonical href=https://abraaosantosdeveloper.github.io/blabry-docs/docs/criterios-de-aceitacao /><link data-rh=true rel=alternate href=https://abraaosantosdeveloper.github.io/blabry-docs/docs/criterios-de-aceitacao hreflang=en /><link data-rh=true rel=alternate href=https://abraaosantosdeveloper.github.io/blabry-docs/docs/criterios-de-aceitacao hreflang=x-default /><script data-rh=true type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://abraaosantosdeveloper.github.io/blabry-docs/docs/criterios-de-aceitacao","name":"Critérios de Aceitação (BDD)","position":1}]}</script><link rel=stylesheet href=/blabry-docs/assets/css/styles.f91a46b2.css /><script src=/blabry-docs/assets/js/runtime~main.b832b1a1.js defer></script><script src=/blabry-docs/assets/js/main.b9378474.js defer></script></head><body><svg style="display: none;"><defs>
+<symbol id=theme-svg-external-link viewBox="0 0 24 24"><path fill=currentColor d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme-758")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id=__docusaurus><link rel=preload as=image href=/blabry-docs/img/logo.svg /><div role=region aria-label="Skip to main content"><a class=skipToContent_fXgn href=#__docusaurus_skipToContent_fallback>Skip to main content</a></div><nav aria-label=Main class="theme-layout-navbar navbar navbar--fixed-top"><div class=navbar__inner><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded=false class="navbar__toggle clean-btn" type=button><svg width=30 height=30 viewBox="0 0 30 30" aria-hidden=true><path stroke=currentColor stroke-linecap=round stroke-miterlimit=10 stroke-width=2 d="M4 7h22M4 15h22M4 23h22"/></svg></button><a class=navbar__brand href=/blabry-docs/><div class=navbar__logo><img src=/blabry-docs/img/logo.svg alt="Blabry Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"/><img src=/blabry-docs/img/logo.svg alt="Blabry Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"/></div></a><a aria-current=page class="navbar__item navbar__link navbar__link--active" href=/blabry-docs/docs/intro>Documentação</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href=https://github.com/abraaosantosdeveloper/blabry target=_blank rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_nPIU><use href=#theme-svg-external-link /></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type=button disabled title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill=currentColor d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill=currentColor d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill=currentColor d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"/></svg></button></div><div class=navbarSearchContainer_Bca1></div></div></div><div role=presentation class=navbar-sidebar__backdrop></div></nav><div id=__docusaurus_skipToContent_fallback class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class=docsWrapper_hBAB><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type=button></button><div class=docRoot_UBD9><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class=sidebarViewport_aRkj><div class=sidebar_njMd><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/intro><span class=linkLabel_WmDU>Introdução</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/sumario><span class=linkLabel_WmDU>Sumário</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/tecnologias><span class=linkLabel_WmDU>Tecnologias</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/requisitos-funcionais><span class=linkLabel_WmDU>Requisitos Funcionais</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current=page href=/blabry-docs/docs/criterios-de-aceitacao><span class=linkLabel_WmDU>Critérios de Aceitação (BDD)</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/requisitos-nao-funcionais><span class=linkLabel_WmDU>Requisitos Não Funcionais</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/arquitetura><span class=linkLabel_WmDU>Arquitetura</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/funcionalidades><span class=linkLabel_WmDU>Funcionalidades</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/changelog><span class=linkLabel_WmDU>Changelog</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/blabry-docs/docs/modelo-3c><span class=linkLabel_WmDU>Modelo 3C</span></a></ul></nav></div></div></aside><main class=docMainContainer_TBSr><div class="container padding-top--md padding-bottom--lg"><div class=row><div class="col docItemCol_VOVn"><div class=docItemContainer_Djhp><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label=Breadcrumbs><ul class=breadcrumbs><li class=breadcrumbs__item><a aria-label="Home page" class=breadcrumbs__link href=/blabry-docs/><svg viewBox="0 0 24 24" class=breadcrumbHomeIcon_YNFT><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill=currentColor /></svg></a><li class="breadcrumbs__item breadcrumbs__item--active"><span class=breadcrumbs__link>Critérios de Aceitação (BDD)</span></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type=button class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Critérios de Aceitação</h1></header>
+<p>Os requisitos funcionais dizem <strong>o que</strong> o sistema faz. Este documento diz
+<strong>como saber que faz</strong> — cada critério é escrito na forma BDD
+(<em>Behavior-Driven Development</em>):</p>
+<blockquote>
+<p><strong>Dado:</strong> a situação de partida
+<strong>Quando:</strong> a ação do usuário
+<strong>Então:</strong> a resposta e o comportamento do sistema</p>
+</blockquote>
+<p>A escolha do formato não é estética. Um critério nessa forma tem três
+propriedades que uma frase solta não tem:</p>
+<ol>
+<li class=""><strong>É verificável.</strong> Cada bloco vira um teste automatizado quase sem
+tradução — o "Dado" monta o cenário, o "Quando" executa, o "Então" é a
+asserção.</li>
+<li class=""><strong>Separa causa de efeito.</strong> Fica explícito o que é pré-condição e o que é
+consequência, e isso expõe requisitos que dependiam de contexto não dito.</li>
+<li class=""><strong>Serve às duas pontas.</strong> Quem escreve o código e quem valida o produto
+leem o mesmo texto, sem intermediários.</li>
+</ol>
+<p>Cada cenário aponta o requisito funcional (RF) que confirma. Os cenários
+marcados como <strong>Planejado</strong> descrevem comportamento ainda não implementado —
+estão aqui porque o critério vem antes do código, não depois.</p>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=autenticação-e-conta>Autenticação e conta<a href=#autenticação-e-conta class=hash-link aria-label="Direct link to Autenticação e conta" title="Direct link to Autenticação e conta" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca01--cadastro-completo--rf01-rf32>CA01 · Cadastro completo — RF01, RF32<a href=#ca01--cadastro-completo--rf01-rf32 class=hash-link aria-label="Direct link to CA01 · Cadastro completo — RF01, RF32" title="Direct link to CA01 · Cadastro completo — RF01, RF32" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um visitante na tela de criação de conta, com nome, sobrenome,
+data de nascimento, nacionalidade, e-mail, senha e @ preenchidos, e a
+caixa de aceite da política de privacidade marcada;
+<strong>Quando:</strong> ele confirma a criação da conta;
+<strong>Então:</strong> o sistema cria a conta com o e-mail pendente de confirmação,
+<strong>não</strong> devolve token, envia um código de seis dígitos ao e-mail informado
+e leva o usuário à tela de confirmação.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca02--cadastro-sem-aceite-da-política--rf32-rf33>CA02 · Cadastro sem aceite da política — RF32, RF33<a href=#ca02--cadastro-sem-aceite-da-política--rf32-rf33 class=hash-link aria-label="Direct link to CA02 · Cadastro sem aceite da política — RF32, RF33" title="Direct link to CA02 · Cadastro sem aceite da política — RF32, RF33" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> o mesmo visitante, com todos os campos preenchidos, mas sem
+marcar o aceite da política de privacidade;
+<strong>Quando:</strong> ele tenta concluir o cadastro;
+<strong>Então:</strong> a interface bloqueia o envio, destaca a caixa de aceite e
+informa que é preciso aceitar a política.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca03--aceite-forjado-fora-da-interface--rf33>CA03 · Aceite forjado fora da interface — RF33<a href=#ca03--aceite-forjado-fora-da-interface--rf33 class=hash-link aria-label="Direct link to CA03 · Aceite forjado fora da interface — RF33" title="Direct link to CA03 · Aceite forjado fora da interface — RF33" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um cliente HTTP qualquer, fora do formulário da aplicação;
+<strong>Quando:</strong> ele envia <code>POST /auth/cadastro</code> sem o campo <code>aceitouPolitica</code>,
+com <code>false</code>, ou com a <strong>string</strong> <code>"true"</code>;
+<strong>Então:</strong> o servidor responde <strong>400</strong>, nenhuma conta é criada, e a
+mensagem informa que o aceite é obrigatório.</p>
+<p><em>Por que a string "true" também é recusada:</em> em JavaScript toda string não
+vazia é verdadeira. A comparação é estrita (<code>=== true</code>), de modo que um
+formulário que serialize o booleano sem cuidado não passe por engano.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca04--confirmação-de-e-mail--rf34>CA04 · Confirmação de e-mail — RF34<a href=#ca04--confirmação-de-e-mail--rf34 class=hash-link aria-label="Direct link to CA04 · Confirmação de e-mail — RF34" title="Direct link to CA04 · Confirmação de e-mail — RF34" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> uma conta recém-criada, com o código de seis dígitos recebido no
+e-mail e ainda dentro dos quinze minutos de validade;
+<strong>Quando:</strong> o usuário digita o código na tela de confirmação;
+<strong>Então:</strong> o sistema marca o e-mail como confirmado, devolve o token e
+leva o usuário ao feed — sem exigir um login logo em seguida.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca05--login-com-conta-não-confirmada--rf34>CA05 · Login com conta não confirmada — RF34<a href=#ca05--login-com-conta-não-confirmada--rf34 class=hash-link aria-label="Direct link to CA05 · Login com conta não confirmada — RF34" title="Direct link to CA05 · Login com conta não confirmada — RF34" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> uma conta cujo e-mail ainda não foi confirmado;
+<strong>Quando:</strong> o usuário tenta entrar com a senha <strong>correta</strong>;
+<strong>Então:</strong> o sistema responde <strong>403</strong> (e não 401), e a interface o leva à
+tela de código em vez de sugerir que a senha esteja errada.</p>
+<p><em>Por que 403 e não 401:</em> os dois status dizem coisas diferentes — 401 é
+"não sabemos quem é você", 403 é "sabemos, mas falta um passo". A distinção
+é o que permite à interface escolher para onde levar o usuário.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca06--ordem-das-checagens-no-login--rf34>CA06 · Ordem das checagens no login — RF34<a href=#ca06--ordem-das-checagens-no-login--rf34 class=hash-link aria-label="Direct link to CA06 · Ordem das checagens no login — RF34" title="Direct link to CA06 · Ordem das checagens no login — RF34" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> uma conta não confirmada;
+<strong>Quando:</strong> alguém tenta entrar com a senha <strong>errada</strong>;
+<strong>Então:</strong> a resposta é <strong>401</strong>, e não 403.</p>
+<p><em>Por quê:</em> a confirmação é checada <strong>depois</strong> da senha. Se fosse antes,
+bastaria digitar um e-mail qualquer para descobrir se ele tem conta aqui e
+em que estado ela está.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca07--código-errado--rf34>CA07 · Código errado — RF34<a href=#ca07--código-errado--rf34 class=hash-link aria-label="Direct link to CA07 · Código errado — RF34" title="Direct link to CA07 · Código errado — RF34" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> uma conta pendente de confirmação;
+<strong>Quando:</strong> o usuário digita um código incorreto;
+<strong>Então:</strong> o sistema responde <strong>400</strong>, contabiliza a tentativa e mantém a
+conta pendente. Após cinco tentativas erradas, o código deixa de valer e
+um novo precisa ser solicitado.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca08--código-expirado-ou-reutilizado--rf34>CA08 · Código expirado ou reutilizado — RF34<a href=#ca08--código-expirado-ou-reutilizado--rf34 class=hash-link aria-label="Direct link to CA08 · Código expirado ou reutilizado — RF34" title="Direct link to CA08 · Código expirado ou reutilizado — RF34" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um código emitido há mais de quinze minutos, ou já usado uma vez;
+<strong>Quando:</strong> o usuário o informa;
+<strong>Então:</strong> o sistema responde <strong>400</strong> com a mesma mensagem de código
+inválido, sem distinguir entre expirado, usado e incorreto.</p>
+<p><em>Por que a mensagem é a mesma nos três casos:</em> diferenciá-los diria a quem
+está tentando adivinhar se vale a pena continuar. Para o usuário legítimo, a
+ação é idêntica nos três casos — pedir um novo código.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca09--reenvio-de-código--rf35>CA09 · Reenvio de código — RF35<a href=#ca09--reenvio-de-código--rf35 class=hash-link aria-label="Direct link to CA09 · Reenvio de código — RF35" title="Direct link to CA09 · Reenvio de código — RF35" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um usuário que não recebeu o código e já esperou sessenta
+segundos desde o último pedido;
+<strong>Quando:</strong> ele aciona "Reenviar código";
+<strong>Então:</strong> um novo código é emitido e enviado, e o botão volta a ficar
+indisponível por sessenta segundos.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca10--reenvio-pedido-cedo-demais--rf35>CA10 · Reenvio pedido cedo demais — RF35<a href=#ca10--reenvio-pedido-cedo-demais--rf35 class=hash-link aria-label="Direct link to CA10 · Reenvio pedido cedo demais — RF35" title="Direct link to CA10 · Reenvio pedido cedo demais — RF35" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um código pedido há menos de sessenta segundos;
+<strong>Quando:</strong> o usuário pede outro;
+<strong>Então:</strong> o sistema responde <strong>429</strong> e informa quantos segundos faltam.</p>
+<p><em>Por que existe o limite:</em> sem ele, quem conhecesse um endereço de e-mail
+poderia usar a rota para encher a caixa de entrada de outra pessoa.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca11--resposta-uniforme-para-e-mail-desconhecido--rf35-rf36>CA11 · Resposta uniforme para e-mail desconhecido — RF35, RF36<a href=#ca11--resposta-uniforme-para-e-mail-desconhecido--rf35-rf36 class=hash-link aria-label="Direct link to CA11 · Resposta uniforme para e-mail desconhecido — RF35, RF36" title="Direct link to CA11 · Resposta uniforme para e-mail desconhecido — RF35, RF36" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um e-mail que não tem conta na plataforma;
+<strong>Quando:</strong> alguém pede reenvio de confirmação ou código de troca de senha
+para ele;
+<strong>Então:</strong> o sistema responde <strong>200</strong>, exatamente como responderia a um
+e-mail cadastrado, e nenhum e-mail é enviado.</p>
+<p><em>Por quê:</em> uma resposta diferente por caso transformaria a rota em um
+verificador de quem tem conta aqui — informação que não é nossa para
+distribuir. Por isso a interface diz "se houver uma conta, o código foi
+enviado", e nunca "enviamos".</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca12--troca-de-senha-por-código--rf36>CA12 · Troca de senha por código — RF36<a href=#ca12--troca-de-senha-por-código--rf36 class=hash-link aria-label="Direct link to CA12 · Troca de senha por código — RF36" title="Direct link to CA12 · Troca de senha por código — RF36" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um usuário com o código de troca de senha em mãos;
+<strong>Quando:</strong> ele informa o código e uma senha com no mínimo oito
+caracteres, uma maiúscula e um caractere especial;
+<strong>Então:</strong> a senha é substituída, o e-mail passa a constar como confirmado,
+e o usuário é levado ao login para entrar com a nova senha.</p>
+<p><em>Por que a troca também confirma o e-mail:</em> o usuário acabou de provar que
+tem acesso a ele. Exigir a mesma prova duas vezes não acrescenta segurança.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca13--senha-fraca-na-troca--rf36>CA13 · Senha fraca na troca — RF36<a href=#ca13--senha-fraca-na-troca--rf36 class=hash-link aria-label="Direct link to CA13 · Senha fraca na troca — RF36" title="Direct link to CA13 · Senha fraca na troca — RF36" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um código válido;
+<strong>Quando:</strong> a nova senha não atende à regra de força;
+<strong>Então:</strong> o servidor responde <strong>400</strong> e a senha anterior permanece — a
+regra é validada na API, e não apenas no formulário.</p>
+</blockquote>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=privacidade>Privacidade<a href=#privacidade class=hash-link aria-label="Direct link to Privacidade" title="Direct link to Privacidade" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca14--perfil-público-sem-dados-pessoais--rf38>CA14 · Perfil público sem dados pessoais — RF38<a href=#ca14--perfil-público-sem-dados-pessoais--rf38 class=hash-link aria-label="Direct link to CA14 · Perfil público sem dados pessoais — RF38" title="Direct link to CA14 · Perfil público sem dados pessoais — RF38" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um usuário autenticado visitando o perfil de outra pessoa;
+<strong>Quando:</strong> a página do perfil é carregada;
+<strong>Então:</strong> são exibidos nome, @, foto, bio, seguidores, seguindo e o ano de
+criação da conta. E-mail, data de nascimento e nacionalidade <strong>não
+aparecem</strong>, e a API os devolve como <code>null</code>.</p>
+<p><em>Por que a seção some inteira, em vez de mostrar um traço:</em> uma caixa vazia
+com um travessão anuncia que existe algo escondido ali. O perfil público
+termina na bio.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca15--dados-pessoais-no-próprio-perfil--rf38>CA15 · Dados pessoais no próprio perfil — RF38<a href=#ca15--dados-pessoais-no-próprio-perfil--rf38 class=hash-link aria-label="Direct link to CA15 · Dados pessoais no próprio perfil — RF38" title="Direct link to CA15 · Dados pessoais no próprio perfil — RF38" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> o mesmo usuário acessando o seu próprio perfil;
+<strong>Quando:</strong> a página é carregada;
+<strong>Então:</strong> e-mail, data de nascimento e nacionalidade aparecem, cada um com
+a opção de edição.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca16--acesso-à-política-de-privacidade--rf41>CA16 · Acesso à política de privacidade — RF41<a href=#ca16--acesso-à-política-de-privacidade--rf41 class=hash-link aria-label="Direct link to CA16 · Acesso à política de privacidade — RF41" title="Direct link to CA16 · Acesso à política de privacidade — RF41" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um usuário autenticado com o modal "Conta e segurança" aberto;
+<strong>Quando:</strong> ele aciona "Política de privacidade";
+<strong>Então:</strong> a política abre em uma nova aba, com o conteúdo completo —
+coleta e tratamento de dados, sobre a plataforma, criptografias, direitos
+do titular e os serviços de hospedagem no rodapé — e nada muda na tela em
+que ele estava.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca17--leitura-da-política-antes-do-cadastro--rf32>CA17 · Leitura da política antes do cadastro — RF32<a href=#ca17--leitura-da-política-antes-do-cadastro--rf32 class=hash-link aria-label="Direct link to CA17 · Leitura da política antes do cadastro — RF32" title="Direct link to CA17 · Leitura da política antes do cadastro — RF32" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um visitante ainda sem conta, na etapa final do cadastro;
+<strong>Quando:</strong> ele aciona o link "política de privacidade" ao lado da caixa de
+aceite;
+<strong>Então:</strong> a política abre em nova aba e o formulário já preenchido
+permanece intacto.</p>
+<p><em>Por que a página é pública:</em> o cadastro exige aceitá-la, e exigir login
+para ler aquilo que se está aceitando seria um ciclo impossível de fechar.</p>
+</blockquote>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=publicações>Publicações<a href=#publicações class=hash-link aria-label="Direct link to Publicações" title="Direct link to Publicações" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca18--página-dedicada-da-publicação--rf37>CA18 · Página dedicada da publicação — RF37<a href=#ca18--página-dedicada-da-publicação--rf37 class=hash-link aria-label="Direct link to CA18 · Página dedicada da publicação — RF37" title="Direct link to CA18 · Página dedicada da publicação — RF37" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> uma publicação existente;
+<strong>Quando:</strong> o usuário clica no horário do cartão, no feed ou no perfil;
+<strong>Então:</strong> a página <code>/post/:id</code> abre com os dados do autor, o conteúdo, os
+contadores e os comentários <strong>já expandidos</strong>.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca19--publicação-inexistente-ou-de-conta-excluída--rf37>CA19 · Publicação inexistente ou de conta excluída — RF37<a href=#ca19--publicação-inexistente-ou-de-conta-excluída--rf37 class=hash-link aria-label="Direct link to CA19 · Publicação inexistente ou de conta excluída — RF37" title="Direct link to CA19 · Publicação inexistente ou de conta excluída — RF37" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um endereço de publicação que não corresponde a nada visível;
+<strong>Quando:</strong> a página é aberta;
+<strong>Então:</strong> a API responde <strong>404</strong> e a interface mostra o estado de erro com
+a opção de tentar de novo.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca20--publicações-no-perfil--rf39>CA20 · Publicações no perfil — RF39<a href=#ca20--publicações-no-perfil--rf39 class=hash-link aria-label="Direct link to CA20 · Publicações no perfil — RF39" title="Direct link to CA20 · Publicações no perfil — RF39" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um perfil, próprio ou de terceiro, com publicações;
+<strong>Quando:</strong> a página do perfil é carregada;
+<strong>Então:</strong> logo abaixo das informações aparece a seção "Publicações", em
+ordem cronológica decrescente, com o total e o botão "Carregar mais"
+enquanto houver páginas.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca21--perfil-sem-publicações--rf39>CA21 · Perfil sem publicações — RF39<a href=#ca21--perfil-sem-publicações--rf39 class=hash-link aria-label="Direct link to CA21 · Perfil sem publicações — RF39" title="Direct link to CA21 · Perfil sem publicações — RF39" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um perfil cujo dono nunca publicou;
+<strong>Quando:</strong> a página é carregada;
+<strong>Então:</strong> a seção exibe "Nenhuma publicação por aqui ainda" — e não uma
+lista vazia sem explicação nem um erro.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca22--perfil-inexistente--rf39>CA22 · Perfil inexistente — RF39<a href=#ca22--perfil-inexistente--rf39 class=hash-link aria-label="Direct link to CA22 · Perfil inexistente — RF39" title="Direct link to CA22 · Perfil inexistente — RF39" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um @ que não corresponde a nenhum usuário;
+<strong>Quando:</strong> as publicações são solicitadas;
+<strong>Então:</strong> a API responde <strong>404</strong>, e não uma lista vazia.</p>
+<p><em>Por quê:</em> lista vazia afirma "esse usuário existe e não publicou nada",
+que é uma informação diferente de "esse usuário não existe".</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca23--edição-e-exclusão-no-perfil-de-terceiros--rf25-rf28>CA23 · Edição e exclusão no perfil de terceiros — RF25, RF28<a href=#ca23--edição-e-exclusão-no-perfil-de-terceiros--rf25-rf28 class=hash-link aria-label="Direct link to CA23 · Edição e exclusão no perfil de terceiros — RF25, RF28" title="Direct link to CA23 · Edição e exclusão no perfil de terceiros — RF25, RF28" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um usuário visitando o perfil de outra pessoa;
+<strong>Quando:</strong> ele abre o menu de contexto de uma publicação alheia;
+<strong>Então:</strong> as opções de editar e excluir não são oferecidas — a decisão é
+tomada comparando o autor da publicação com o usuário do token, e não pela
+tela em que se está.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca24--busca-leva-à-publicação--rf42>CA24 · Busca leva à publicação — RF42<a href=#ca24--busca-leva-à-publicação--rf42 class=hash-link aria-label="Direct link to CA24 · Busca leva à publicação — RF42" title="Direct link to CA24 · Busca leva à publicação — RF42" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um usuário com a busca aberta na aba "Posts" e ao menos um
+resultado em tela;
+<strong>Quando:</strong> ele clica em um resultado;
+<strong>Então:</strong> ele vai para a página <strong>da publicação</strong>, e não para o perfil do
+autor.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca25--termo-de-busca-curto-demais--rf31>CA25 · Termo de busca curto demais — RF31<a href=#ca25--termo-de-busca-curto-demais--rf31 class=hash-link aria-label="Direct link to CA25 · Termo de busca curto demais — RF31" title="Direct link to CA25 · Termo de busca curto demais — RF31" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> a aba "Posts" da busca;
+<strong>Quando:</strong> o usuário digita menos de três caracteres;
+<strong>Então:</strong> nenhuma consulta é disparada e a interface pede um termo maior.</p>
+<p><em>Por quê:</em> o índice <code>FULLTEXT</code> do InnoDB ignora palavras menores que
+<code>innodb_ft_min_token_size</code> (padrão 3). Consultar assim devolveria vazio sem
+explicação.</p>
+</blockquote>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=exclusão-de-conta>Exclusão de conta<a href=#exclusão-de-conta class=hash-link aria-label="Direct link to Exclusão de conta" title="Direct link to Exclusão de conta" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca26--etapa-1--entender-o-efeito--rf16>CA26 · Etapa 1 — entender o efeito — RF16<a href=#ca26--etapa-1--entender-o-efeito--rf16 class=hash-link aria-label="Direct link to CA26 · Etapa 1 — entender o efeito — RF16" title="Direct link to CA26 · Etapa 1 — entender o efeito — RF16" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um usuário autenticado que acionou "Excluir conta" em Conta e
+segurança;
+<strong>Quando:</strong> o fluxo abre;
+<strong>Então:</strong> a primeira etapa lista as consequências permanentes e avisa que
+um código será enviado ao e-mail no passo seguinte. Nada é excluído ainda.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca27--etapa-2--provar-presença--rf40>CA27 · Etapa 2 — provar presença — RF40<a href=#ca27--etapa-2--provar-presença--rf40 class=hash-link aria-label="Direct link to CA27 · Etapa 2 — provar presença — RF40" title="Direct link to CA27 · Etapa 2 — provar presença — RF40" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> o usuário na primeira etapa;
+<strong>Quando:</strong> ele aciona "Continuar";
+<strong>Então:</strong> o sistema envia um código ao e-mail da conta — lido do banco a
+partir do token, nunca aceito da requisição — e exibe o endereço
+<strong>mascarado</strong> (<code>a*****@gmail.com</code>) junto ao campo do código.</p>
+<p><em>Por que mascarado:</em> confirma ao usuário para onde o código foi sem
+escrever o endereço inteiro em uma tela que pode estar sendo vista por
+outra pessoa.</p>
+<p><em>Por que código e não senha:</em> a senha costuma estar salva no navegador e
+não distingue o dono de quem se sentou na cadeira dele. O código exige
+acesso à caixa de entrada naquele momento.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca28--etapa-3--declarar-intenção--rf16>CA28 · Etapa 3 — declarar intenção — RF16<a href=#ca28--etapa-3--declarar-intenção--rf16 class=hash-link aria-label="Direct link to CA28 · Etapa 3 — declarar intenção — RF16" title="Direct link to CA28 · Etapa 3 — declarar intenção — RF16" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> o código correto informado;
+<strong>Quando:</strong> o usuário avança;
+<strong>Então:</strong> o sistema pede que ele digite a palavra <strong>EXCLUIR</strong>, em
+maiúsculas, e só então libera o botão de exclusão.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca29--exclusão-concluída--rf40>CA29 · Exclusão concluída — RF40<a href=#ca29--exclusão-concluída--rf40 class=hash-link aria-label="Direct link to CA29 · Exclusão concluída — RF40" title="Direct link to CA29 · Exclusão concluída — RF40" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> as três etapas cumpridas;
+<strong>Quando:</strong> o usuário confirma;
+<strong>Então:</strong> a conta recebe a marca de exclusão, some do feed, da busca, dos
+perfis e das listas de seguidores; a sessão local é apagada e o usuário
+volta ao login.</p>
+<p><em>Por que exclusão lógica e não <code>DELETE</code>:</em> um <code>DELETE</code> físico arrastaria em
+cascata publicações, comentários e curtidas — inclusive comentários de
+<strong>terceiros</strong> em publicações do usuário, apagando conteúdo de quem não
+pediu nada.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca30--exclusão-sem-código--rf40>CA30 · Exclusão sem código — RF40<a href=#ca30--exclusão-sem-código--rf40 class=hash-link aria-label="Direct link to CA30 · Exclusão sem código — RF40" title="Direct link to CA30 · Exclusão sem código — RF40" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um usuário autenticado;
+<strong>Quando:</strong> ele envia <code>DELETE /users/me</code> sem código, ou com um código
+inválido;
+<strong>Então:</strong> o servidor responde <strong>400</strong> e a conta permanece ativa.</p>
+<p><em>Por quê:</em> para uma ação irreversível, o token sozinho é pouco — ele prova
+que a sessão existe, não que o dono está diante da tela.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca31--exclusão-sem-sessão--rf40>CA31 · Exclusão sem sessão — RF40<a href=#ca31--exclusão-sem-sessão--rf40 class=hash-link aria-label="Direct link to CA31 · Exclusão sem sessão — RF40" title="Direct link to CA31 · Exclusão sem sessão — RF40" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> uma requisição sem token;
+<strong>Quando:</strong> ela chega a <code>DELETE /users/me</code> ou à rota de código de exclusão;
+<strong>Então:</strong> o servidor responde <strong>401</strong> e nenhum e-mail é enviado.</p>
+</blockquote>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=segurança-dos-códigos>Segurança dos códigos<a href=#segurança-dos-códigos class=hash-link aria-label="Direct link to Segurança dos códigos" title="Direct link to Segurança dos códigos" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca32--código-guardado-como-hash>CA32 · Código guardado como hash<a href=#ca32--código-guardado-como-hash class=hash-link aria-label="Direct link to CA32 · Código guardado como hash" title="Direct link to CA32 · Código guardado como hash" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> um código emitido para qualquer um dos três fluxos;
+<strong>Quando:</strong> ele é gravado;
+<strong>Então:</strong> o banco recebe apenas o <strong>hash</strong> do código, e nunca o valor em
+texto — o mesmo tratamento dado à senha.</p>
+<p><em>Por quê:</em> se a tabela vazar, os hashes não permitem entrar em conta
+alguma. O texto puro permitiria, ainda que por poucos minutos.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca33--uso-único-garantido-sob-concorrência>CA33 · Uso único garantido sob concorrência<a href=#ca33--uso-único-garantido-sob-concorrência class=hash-link aria-label="Direct link to CA33 · Uso único garantido sob concorrência" title="Direct link to CA33 · Uso único garantido sob concorrência" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> duas requisições chegando ao mesmo tempo com o mesmo código
+válido;
+<strong>Quando:</strong> ambas tentam consumi-lo;
+<strong>Então:</strong> apenas uma é aceita; a outra recebe <strong>400</strong>.</p>
+<p><em>Como:</em> o consumo é um <code>UPDATE ... WHERE id = ? AND used_at IS NULL</code>, e o
+serviço só prossegue se ele afetou uma linha. Sem isso existiria uma janela
+entre verificar e marcar, e as duas passariam.</p>
+</blockquote>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=fluxos-planejados>Fluxos planejados<a href=#fluxos-planejados class=hash-link aria-label="Direct link to Fluxos planejados" title="Direct link to Fluxos planejados" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca34--feed-em-tempo-real--rf10--planejado>CA34 · Feed em tempo real — RF10 · Planejado<a href=#ca34--feed-em-tempo-real--rf10--planejado class=hash-link aria-label="Direct link to CA34 · Feed em tempo real — RF10 · Planejado" title="Direct link to CA34 · Feed em tempo real — RF10 · Planejado" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> dois usuários com o feed aberto;
+<strong>Quando:</strong> um deles publica;
+<strong>Então:</strong> a publicação aparece no feed do outro sem recarregar a página,
+entregue por WebSocket.</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=ca35--conversa-privada--rf09-rf11-rf12--planejado>CA35 · Conversa privada — RF09, RF11, RF12 · Planejado<a href=#ca35--conversa-privada--rf09-rf11-rf12--planejado class=hash-link aria-label="Direct link to CA35 · Conversa privada — RF09, RF11, RF12 · Planejado" title="Direct link to CA35 · Conversa privada — RF09, RF11, RF12 · Planejado" translate=no>​</a></h3>
+<blockquote>
+<p><strong>Dado:</strong> dois usuários cadastrados;
+<strong>Quando:</strong> um inicia uma conversa e envia uma mensagem;
+<strong>Então:</strong> a mensagem é entregue em tempo real, fica gravada no histórico e
+exibe status de entrega — pendente, enviada, recebida e lida.</p>
+</blockquote></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href=/blabry-docs/docs/requisitos-funcionais><div class=pagination-nav__sublabel>Previous</div><div class=pagination-nav__label>Requisitos Funcionais</div></a><a class="pagination-nav__link pagination-nav__link--next" href=/blabry-docs/docs/requisitos-nao-funcionais><div class=pagination-nav__sublabel>Next</div><div class=pagination-nav__label>Requisitos Não Funcionais</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href=#autenticação-e-conta class="table-of-contents__link toc-highlight">Autenticação e conta</a><ul><li><a href=#ca01--cadastro-completo--rf01-rf32 class="table-of-contents__link toc-highlight">CA01 · Cadastro completo — RF01, RF32</a><li><a href=#ca02--cadastro-sem-aceite-da-política--rf32-rf33 class="table-of-contents__link toc-highlight">CA02 · Cadastro sem aceite da política — RF32, RF33</a><li><a href=#ca03--aceite-forjado-fora-da-interface--rf33 class="table-of-contents__link toc-highlight">CA03 · Aceite forjado fora da interface — RF33</a><li><a href=#ca04--confirmação-de-e-mail--rf34 class="table-of-contents__link toc-highlight">CA04 · Confirmação de e-mail — RF34</a><li><a href=#ca05--login-com-conta-não-confirmada--rf34 class="table-of-contents__link toc-highlight">CA05 · Login com conta não confirmada — RF34</a><li><a href=#ca06--ordem-das-checagens-no-login--rf34 class="table-of-contents__link toc-highlight">CA06 · Ordem das checagens no login — RF34</a><li><a href=#ca07--código-errado--rf34 class="table-of-contents__link toc-highlight">CA07 · Código errado — RF34</a><li><a href=#ca08--código-expirado-ou-reutilizado--rf34 class="table-of-contents__link toc-highlight">CA08 · Código expirado ou reutilizado — RF34</a><li><a href=#ca09--reenvio-de-código--rf35 class="table-of-contents__link toc-highlight">CA09 · Reenvio de código — RF35</a><li><a href=#ca10--reenvio-pedido-cedo-demais--rf35 class="table-of-contents__link toc-highlight">CA10 · Reenvio pedido cedo demais — RF35</a><li><a href=#ca11--resposta-uniforme-para-e-mail-desconhecido--rf35-rf36 class="table-of-contents__link toc-highlight">CA11 · Resposta uniforme para e-mail desconhecido — RF35, RF36</a><li><a href=#ca12--troca-de-senha-por-código--rf36 class="table-of-contents__link toc-highlight">CA12 · Troca de senha por código — RF36</a><li><a href=#ca13--senha-fraca-na-troca--rf36 class="table-of-contents__link toc-highlight">CA13 · Senha fraca na troca — RF36</a></ul><li><a href=#privacidade class="table-of-contents__link toc-highlight">Privacidade</a><ul><li><a href=#ca14--perfil-público-sem-dados-pessoais--rf38 class="table-of-contents__link toc-highlight">CA14 · Perfil público sem dados pessoais — RF38</a><li><a href=#ca15--dados-pessoais-no-próprio-perfil--rf38 class="table-of-contents__link toc-highlight">CA15 · Dados pessoais no próprio perfil — RF38</a><li><a href=#ca16--acesso-à-política-de-privacidade--rf41 class="table-of-contents__link toc-highlight">CA16 · Acesso à política de privacidade — RF41</a><li><a href=#ca17--leitura-da-política-antes-do-cadastro--rf32 class="table-of-contents__link toc-highlight">CA17 · Leitura da política antes do cadastro — RF32</a></ul><li><a href=#publicações class="table-of-contents__link toc-highlight">Publicações</a><ul><li><a href=#ca18--página-dedicada-da-publicação--rf37 class="table-of-contents__link toc-highlight">CA18 · Página dedicada da publicação — RF37</a><li><a href=#ca19--publicação-inexistente-ou-de-conta-excluída--rf37 class="table-of-contents__link toc-highlight">CA19 · Publicação inexistente ou de conta excluída — RF37</a><li><a href=#ca20--publicações-no-perfil--rf39 class="table-of-contents__link toc-highlight">CA20 · Publicações no perfil — RF39</a><li><a href=#ca21--perfil-sem-publicações--rf39 class="table-of-contents__link toc-highlight">CA21 · Perfil sem publicações — RF39</a><li><a href=#ca22--perfil-inexistente--rf39 class="table-of-contents__link toc-highlight">CA22 · Perfil inexistente — RF39</a><li><a href=#ca23--edição-e-exclusão-no-perfil-de-terceiros--rf25-rf28 class="table-of-contents__link toc-highlight">CA23 · Edição e exclusão no perfil de terceiros — RF25, RF28</a><li><a href=#ca24--busca-leva-à-publicação--rf42 class="table-of-contents__link toc-highlight">CA24 · Busca leva à publicação — RF42</a><li><a href=#ca25--termo-de-busca-curto-demais--rf31 class="table-of-contents__link toc-highlight">CA25 · Termo de busca curto demais — RF31</a></ul><li><a href=#exclusão-de-conta class="table-of-contents__link toc-highlight">Exclusão de conta</a><ul><li><a href=#ca26--etapa-1--entender-o-efeito--rf16 class="table-of-contents__link toc-highlight">CA26 · Etapa 1 — entender o efeito — RF16</a><li><a href=#ca27--etapa-2--provar-presença--rf40 class="table-of-contents__link toc-highlight">CA27 · Etapa 2 — provar presença — RF40</a><li><a href=#ca28--etapa-3--declarar-intenção--rf16 class="table-of-contents__link toc-highlight">CA28 · Etapa 3 — declarar intenção — RF16</a><li><a href=#ca29--exclusão-concluída--rf40 class="table-of-contents__link toc-highlight">CA29 · Exclusão concluída — RF40</a><li><a href=#ca30--exclusão-sem-código--rf40 class="table-of-contents__link toc-highlight">CA30 · Exclusão sem código — RF40</a><li><a href=#ca31--exclusão-sem-sessão--rf40 class="table-of-contents__link toc-highlight">CA31 · Exclusão sem sessão — RF40</a></ul><li><a href=#segurança-dos-códigos class="table-of-contents__link toc-highlight">Segurança dos códigos</a><ul><li><a href=#ca32--código-guardado-como-hash class="table-of-contents__link toc-highlight">CA32 · Código guardado como hash</a><li><a href=#ca33--uso-único-garantido-sob-concorrência class="table-of-contents__link toc-highlight">CA33 · Uso único garantido sob concorrência</a></ul><li><a href=#fluxos-planejados class="table-of-contents__link toc-highlight">Fluxos planejados</a><ul><li><a href=#ca34--feed-em-tempo-real--rf10--planejado class="table-of-contents__link toc-highlight">CA34 · Feed em tempo real — RF10 · Planejado</a><li><a href=#ca35--conversa-privada--rf09-rf11-rf12--planejado class="table-of-contents__link toc-highlight">CA35 · Conversa privada — RF09, RF11, RF12 · Planejado</a></ul></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class=footer__copyright>Copyright © 2026 Blabry. Desenvolvido por Abraão Santos.</div></div></div></footer></div></body>
