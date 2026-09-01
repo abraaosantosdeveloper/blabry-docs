@@ -28,6 +28,7 @@ title: Tecnologias
 | uuid | 14 | Geração de identificadores UUID v7 |
 | multer | 2 | Interpretação de requisições `multipart/form-data` |
 | cloudinary | 2 | Armazenamento e entrega de imagens |
+| resend | 6 | Envio de e-mail transacional por API HTTP |
 | socket.io | 4 | Comunicação em tempo real via WebSockets |
 | swagger-jsdoc | 6 | Geração da especificação OpenAPI a partir do código |
 | swagger-ui-express | 5 | Interface de exploração da API |
@@ -52,4 +53,12 @@ title: Tecnologias
 | GitHub Pages | Hospedagem do frontend e da documentação |
 | Railway | Hospedagem da API e do banco de dados |
 | Cloudinary | Armazenamento das fotos de perfil |
+| Resend | Entrega dos e-mails de código de verificação |
+| Registro.br | Domínio `blabry.com.br`, usado como remetente autenticado |
 | gh-pages | Automação do deploy |
+
+O domínio existe por causa do e-mail, e não do site. Um remetente em domínio
+de terceiros não pode publicar SPF e DKIM próprios, e sem eles a mensagem
+chega marcada como não autenticada — quando chega. `blabry.com.br` foi
+registrado e delegado ao Resend por três registros DNS: o CNAME de DKIM, o
+de retorno (*bounce*) e o de rastreio.

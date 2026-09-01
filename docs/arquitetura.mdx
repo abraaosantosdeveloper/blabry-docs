@@ -85,6 +85,35 @@ Nenhuma camada trata o erro localmente. Serviços lançam exceções anotadas co
 
 O resultado é que a política de erro é definida em um lugar só. Em produção, nenhum *stack trace* alcança o cliente.
 
+**O mascaramento vale só para os 5xx.** A primeira versão do middleware
+escondia toda mensagem em produção, e o efeito foi que "É necessário aceitar a
+política de privacidade" chegava ao usuário como "Erro interno do servidor". A
+distinção correta é de origem, não de gravidade: os 4xx são frases escritas
+para alguém ler e agir; os 5xx carregam mensagem de exceção, que pode expor
+nome de tabela ou caminho de arquivo.
+
+### Limitação de requisições
+
+Um limitador por janela fixa, escrito sem dependência, roda antes das rotas.
+Cada rota sensível tem o **próprio balde**: trinta tentativas de login a cada
+dez minutos, dez cadastros, trinta verificações de código, dez pedidos de
+e-mail, e um teto geral de seiscentas requisições.
+
+Os baldes são separados por um motivo que só apareceu quando a suíte de testes
+começou a falhar com 429: com um balde único, cada usuário novo gastaria
+cadastro, verificação e login do mesmo saldo. Atrás de uma rede compartilhada
+— universidade, escritório, operadora móvel —, onde centenas de pessoas saem
+pelo mesmo endereço, isso trancaria a quinta pessoa a se cadastrar.
+
+O limitador não tem dependência porque a aplicação roda em **uma** instância,
+onde um contador em memória é exato. Com mais de uma instância nenhum contador
+local serve, e a resposta é um armazenamento compartilhado — não uma
+biblioteca diferente.
+
+Ele depende de `app.set('trust proxy', 1)`. Atrás do proxy do Railway, sem essa
+configuração, todos os visitantes chegam com o mesmo endereço, dividem um
+único balde, e o primeiro a estourar o limite tranca os demais.
+
 ---
 
 ## Autenticação
@@ -207,16 +236,35 @@ porta SMTP nem conexão persistente. A troca de fornecedor, se ocorrer, mexe em
 um arquivo só: `config/email.js` é a única parte do sistema que conhece o
 provedor; o resto conhece apenas `sendEmail({ to, subject, html, text })`.
 
-### Exclusão lógica de conta
+### Exclusão de conta
 
-`DELETE /users/me` preenche `deleted_at` em vez de remover a linha. Três razões:
+`DELETE /users/me` não apaga a linha do usuário: **anonimiza** o cadastro e
+apaga o conteúdo publicado.
 
-1. Todas as consultas já filtram por `deleted_at IS NULL`, então a conta some
-   da aplicação no mesmo instante.
-2. Um `DELETE` físico arrastaria em cascata publicações, comentários e
-   curtidas — inclusive comentários de **terceiros** em publicações do usuário,
-   apagando conteúdo de quem não pediu nada.
-3. Chaves estrangeiras apontando para o usuário continuam íntegras.
+A primeira versão apenas preenchia `deleted_at` e parava aí. A conta sumia da
+aplicação, porque toda consulta já filtra por `deleted_at IS NULL`, mas nenhum
+dado pessoal saía do banco: e-mail, nome completo, data de nascimento,
+nacionalidade, bio, foto e o hash da senha continuavam lá. Isso contrariava a
+política de privacidade e, como `email` e `alias` são únicos, prendia o
+endereço para sempre — quem excluísse a conta não conseguiria criar outra com
+o mesmo e-mail.
+
+Hoje a operação faz duas coisas:
+
+1. **Apaga o conteúdo** — publicações, comentários, curtidas dadas, relações
+   de seguir e códigos de verificação.
+2. **Anonimiza o cadastro** — `email` e `alias` viram valores derivados do
+   `id` num domínio reservado (`.invalid`), o nome vira "Conta encerrada", e
+   os demais campos pessoais viram `NULL`. O e-mail e o `@` originais ficam
+   livres de novo.
+
+**Por que anonimizar em vez de apagar a linha.** Um `DELETE` na tabela `user`
+dispararia `ON DELETE CASCADE` sobre `like_post` e removeria as curtidas que a
+pessoa deu em publicações de **terceiros** — contadores alheios cairiam
+retroativamente, sem que ninguém tivesse pedido nada. Encerrar a própria conta
+não pode alterar o conteúdo de outras pessoas. E o artigo 12 da LGPD coloca o
+dado anonimizado fora do alcance da lei, então a anonimização cumpre a
+obrigação de eliminação em vez de contorná-la.
 
 A operação exige **duas** provas: o token e o código enviado ao e-mail. Token
 sozinho prova que a sessão existe, não que o dono está diante da tela — e a
@@ -226,13 +274,34 @@ ação é irreversível.
 
 ## Evolução do esquema
 
-O arquivo `database.sql` descreve o **estado final** do banco e cria tudo do zero. Ele usa `create table if not exists`, o que significa que reexecutá-lo em um banco existente não tem efeito algum — a instrução ignora a tabela inteira quando ela já existe, sem comparar colunas.
+O arquivo `database_assets/database.sql` é o **retrato do banco como ele está
+hoje**. Ele cria tudo do zero e não tem par: a pasta `migrations/`, que
+guardava o caminho de um estado ao outro em arquivos numerados, foi removida.
 
-Por isso as alterações posteriores vivem em `database_assets/migrations/`, em arquivos numerados e imutáveis, que descrevem o **caminho** de um estado ao outro. Os dois se complementam: o primeiro atende quem cria o banco agora, os segundos atendem quem já tem um.
+A separação existiu por um bom motivo e foi encerrada por outro. Ela existiu
+porque `create table if not exists` é silencioso: reexecutar o esquema num
+banco em uso não adiciona coluna alguma, ele apenas ignora a tabela inteira, e
+uma coluna que existe no arquivo mas não no banco produz uma falha em tempo de
+consulta cuja causa não é evidente — o código está certo, o arquivo está
+certo, e o que diverge é o banco.
 
-A separação nasceu de um sintoma concreto: uma coluna adicionada ao arquivo de esquema, mas não ao banco em execução, produz uma falha em tempo de consulta cuja causa não é evidente — o código está correto e o arquivo está correto; o que diverge é o banco.
+Foi encerrada porque o histórico já vivia em outro lugar. O git é um registro
+numerado e imutável de todas as alterações, com data, autor e o diff exato;
+manter uma segunda cópia disso em SQL só criava a pergunta de qual das duas
+estava certa — e a resposta, na prática, era "depende de qual foi atualizada
+por último". O projeto tem um único banco em produção, e migrações valem o
+próprio peso quando há vários ambientes a sincronizar.
 
-Alterações de esquema também têm custo proporcional ao volume da tabela. Adicionar um índice de texto completo reconstrói a tabela; adicionar uma coluna, dependendo da versão do SGBD, também. Com tabelas vazias isso leva frações de segundo; com dados em produção, exige janela de manutenção. Daí a prática de antecipar colunas cuja necessidade já é conhecida, mesmo antes de a funcionalidade existir.
+O que ficou no lugar delas é um aviso no topo do arquivo: **ele cria, não
+atualiza**. Para evoluir um banco existente, o `ALTER` é escrito à mão,
+comparado com o esquema e conferido com `SHOW CREATE TABLE`.
+
+Alterações de esquema também têm custo proporcional ao volume da tabela.
+Adicionar um índice de texto completo reconstrói a tabela; adicionar uma
+coluna, dependendo da versão do SGBD, também. Com tabelas vazias isso leva
+frações de segundo; com dados em produção, exige janela de manutenção. Daí a
+prática de antecipar colunas cuja necessidade já é conhecida, mesmo antes de a
+funcionalidade existir.
 
 ## Organização do frontend
 

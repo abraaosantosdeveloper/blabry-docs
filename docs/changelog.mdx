@@ -7,6 +7,25 @@ title: Changelog
 
 ---
 
+### v0.9.2
+*Setembro 2026*
+
+Rotas do frontend em inglês, edição do perfil concentrada num lugar só, e o esquema do banco consolidado.
+
+**As rotas do frontend acompanharam a API.** `/perfil` virou `/profile`, `/publicacao` virou `/post`, `/politica-de-privacidade` virou `/privacy-policy`. A refatoração deixou duas classes de estrago que só apareceram depois: caminhos de importação atingidos pela substituição — a rota mudou de nome, a pasta `components/perfil/` não —, e texto visível traduzido por engano. O segundo foi o pior: a política de privacidade acabou falando em "data de birthDate" e "contagem de followers", e o perfil exibia "No Blabry memberSince". A varredura por padrão de texto não pegou nada disso, porque texto de JSX não é string nem comentário. A verificação passou a ser feita sobre a árvore sintática — nós de texto e atributos visíveis, importações que resolvem para arquivo real, nomes importados que existem como exportação.
+
+**Toda a edição do perfil mudou de lugar.** Os lápis espalhados pelo perfil saíram; nome, bio, e-mail, nascimento e nacionalidade passam a ser editados em "Conta e segurança" → "Informações pessoais", numa vista que desliza dentro da mesma janela em vez de abrir um segundo modal — modal sobre modal confunde o que o Esc fecha e, no celular, empilha duas caixas roláveis.
+
+Os campos aparecem em dois grupos rotulados por **quem enxerga**: "Perfil", que qualquer pessoa vê, e "Dados pessoais", que só o dono vê. O agrupamento por visibilidade, e não por tipo de dado, responde à dúvida que de fato ocorre a quem está editando — sem o rótulo, é fácil escrever o telefone na bio achando que é campo privado. A foto continua sendo trocada pelo avatar no perfil: recorte de imagem não cabe num formulário de texto.
+
+Nenhum endpoint mudou. É o mesmo `PATCH /users/me` de antes, chamado de outro lugar.
+
+**O esquema do banco voltou a ser um arquivo só.** A pasta `migrations/` foi removida e `database.sql` passou a ser o retrato do banco como ele está hoje. A separação entre "estado final" e "caminho até ele" existiu por um bom motivo — `create table if not exists` não adiciona coluna que falte, e uma divergência entre arquivo e banco vira falha em tempo de consulta sem causa evidente. Foi encerrada por outro: o git já é um registro numerado e imutável de cada alteração, com data, autor e diff, e a segunda cópia em SQL só criava a pergunta de qual das duas estava atualizada. Com um único banco em produção, migrações cobravam mais do que entregavam. No lugar delas ficou um aviso no topo do arquivo: ele cria, não atualiza.
+
+Na limpeza, a tabela `password_reset` saiu do esquema. Ela guardava o código em texto puro e sem limite de tentativas, e `verification_code` já a havia substituído por completo. O `DROP` para bancos antigos ficou anotado no lugar dela. A carga de países virou `INSERT IGNORE`, para o arquivo poder ser reexecutado sem abortar no primeiro duplicado.
+
+---
+
 ### v0.9.1
 *Agosto 2026*
 

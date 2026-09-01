@@ -65,12 +65,17 @@ title: Requisitos Não Funcionais
 | RNF-B18 | Erros de responsabilidade do cliente (4xx) não devem ser registrados como falha do servidor nos logs. |
 | RNF-B19 | Prazos e janelas de tempo devem ser avaliados pelo relógio do servidor, nunca pelo do cliente. |
 | RNF-B20 | O cliente não deve determinar quais colunas são gravadas: campos atualizáveis devem constar de lista definida no servidor. |
+| RNF-B24 | Rotas sensíveis devem ter limite de requisições por janela de tempo, com contagem independente por rota. |
+| RNF-B25 | A aplicação deve identificar o cliente pelo endereço real quando atrás de proxy reverso, e não pelo endereço do proxy. |
+| RNF-B26 | Mensagens de erro do servidor (5xx) devem ser mascaradas em produção; mensagens de erro do cliente (4xx) devem chegar ao usuário como foram escritas. |
+| RNF-B27 | Códigos de verificação devem ser persistidos como hash, ter prazo de validade, limite de tentativas e consumo único. |
+| RNF-B28 | A exclusão de conta não deve alterar conteúdo de terceiros. |
 
 ## Evolução do esquema
 
 | ID | Descrição |
 |---|---|
-| RNF-B21 | Alterações de esquema devem ser registradas em migrações numeradas e imutáveis, versionadas junto ao código. |
+| RNF-B21 | O arquivo de esquema deve refletir o estado atual do banco, e o histórico de alterações deve ser rastreável pelo versionamento do código. |
 | RNF-B22 | Consultas de listagem e de busca devem ser cobertas por índices correspondentes à sua ordenação e aos seus filtros. |
 | RNF-B23 | O banco deve usar codificação de quatro bytes por caractere, comportando acentuação e emojis. |
 

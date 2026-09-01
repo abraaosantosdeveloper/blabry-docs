@@ -304,18 +304,33 @@ estão aqui porque o critério vem antes do código, não depois.
 > **Então:** o sistema pede que ele digite a palavra **EXCLUIR**, em
 > maiúsculas, e só então libera o botão de exclusão.
 
-### CA29 · Exclusão concluída — RF40
+### CA29 · Exclusão concluída — RF40, RF43
 
 > **Dado:** as três etapas cumpridas;
 > **Quando:** o usuário confirma;
-> **Então:** a conta recebe a marca de exclusão, some do feed, da busca, dos
-> perfis e das listas de seguidores; a sessão local é apagada e o usuário
-> volta ao login.
+> **Então:** as publicações, comentários, curtidas e relações de seguir são
+> apagados; o cadastro é anonimizado — e-mail e `@` viram valores derivados do
+> `id` em domínio reservado, o nome vira "Conta encerrada" e os demais campos
+> pessoais viram nulos; a conta some do feed, da busca, dos perfis e das
+> listas de seguidores; a sessão local é apagada e o usuário volta ao login.
 >
-> *Por que exclusão lógica e não `DELETE`:* um `DELETE` físico arrastaria em
-> cascata publicações, comentários e curtidas — inclusive comentários de
-> **terceiros** em publicações do usuário, apagando conteúdo de quem não
-> pediu nada.
+> *Por que anonimizar e não apagar a linha:* um `DELETE` em `user` dispararia
+> `ON DELETE CASCADE` sobre `like_post` e removeria as curtidas que a pessoa
+> deu em publicações de **terceiros** — contadores alheios cairiam
+> retroativamente. Encerrar a própria conta não pode mexer no conteúdo de
+> outras pessoas. O artigo 12 da LGPD coloca dado anonimizado fora do alcance
+> da lei, então a obrigação de eliminação é cumprida.
+
+### CA29b · E-mail liberado após a exclusão — RF43
+
+> **Dado:** uma conta excluída;
+> **Quando:** a mesma pessoa tenta se cadastrar de novo com o mesmo e-mail e
+> o mesmo `@`;
+> **Então:** o cadastro é aceito.
+>
+> *Por quê:* `email` e `alias` são únicos. Enquanto a exclusão apenas marcava
+> `deleted_at`, a linha antiga continuava ocupando os dois valores e trancava
+> a pessoa para fora do próprio endereço. A anonimização os devolve.
 
 ### CA30 · Exclusão sem código — RF40
 
@@ -360,16 +375,80 @@ estão aqui porque o critério vem antes do código, não depois.
 
 ---
 
+## Defesa e mensagens de erro
+
+### CA34 · Limite de requisições por rota — RNF-B24
+
+> **Dado:** uma origem que já esgotou o limite de tentativas de login na
+> janela corrente;
+> **Quando:** ela tenta fazer login de novo;
+> **Então:** o servidor responde **429**, sem consultar o banco nem calcular
+> hash de senha.
+>
+> *Por que baldes separados por rota:* com um balde único, cada usuário novo
+> gastaria cadastro, verificação e login do mesmo saldo. Atrás de uma rede
+> compartilhada — universidade, escritório, operadora móvel —, onde centenas
+> de pessoas saem pelo mesmo endereço, isso trancaria a quinta pessoa a se
+> cadastrar. Estourar o limite de login não pode impedir alguém de criar
+> conta.
+
+### CA35 · Mensagem de erro que chega ao usuário — RNF-B26
+
+> **Dado:** a aplicação em produção;
+> **Quando:** uma requisição falha com erro **4xx** — por exemplo, cadastro
+> sem o aceite da política;
+> **Então:** o usuário lê a mensagem exata escrita para aquele caso.
+>
+> **E dado** o mesmo ambiente, **quando** a falha é **5xx**, **então** o
+> usuário lê apenas "Erro interno do servidor".
+>
+> *Por quê:* a distinção é de origem, não de gravidade. Os 4xx são frases
+> escritas para alguém ler e agir; os 5xx carregam mensagem de exceção, que
+> pode expor nome de tabela ou caminho de arquivo. Mascarar os dois, como a
+> primeira versão fazia, transformava "É necessário aceitar a política de
+> privacidade" em "Erro interno do servidor" — e o usuário não tinha como
+> saber o que corrigir.
+
+---
+
+## Edição do perfil
+
+### CA36 · Dados agrupados por visibilidade — RF29, RF44
+
+> **Dado:** o usuário na tela "Informações pessoais";
+> **Quando:** ela é exibida;
+> **Então:** os campos aparecem em dois grupos rotulados — "Perfil", visível a
+> qualquer pessoa, com nome e bio; e "Dados pessoais", visível só ao dono, com
+> e-mail, nascimento e nacionalidade.
+>
+> *Por quê:* o agrupamento é por quem enxerga, e não por tipo de dado, porque
+> é essa a informação que falta a quem edita. Sem o rótulo, é fácil escrever o
+> telefone na bio achando que é campo privado.
+
+### CA37 · Um só lugar para editar — RF29, RF44
+
+> **Dado:** o usuário no próprio perfil;
+> **Quando:** ele procura alterar qualquer dado;
+> **Então:** o caminho é sempre "Conta e segurança" → "Informações pessoais" —
+> não há botões de edição espalhados pelo perfil. A foto é a única exceção, e
+> continua sendo trocada tocando no avatar.
+>
+> *Por quê:* dois caminhos para a mesma alteração são duas telas para manter
+> em acordo. A foto fica de fora porque recorte de imagem não cabe num
+> formulário de texto.
+
+---
+
 ## Fluxos planejados
 
-### CA34 · Feed em tempo real — RF10 · Planejado
+### CA38 · Feed em tempo real — RF10 · Planejado
 
 > **Dado:** dois usuários com o feed aberto;
 > **Quando:** um deles publica;
 > **Então:** a publicação aparece no feed do outro sem recarregar a página,
 > entregue por WebSocket.
 
-### CA35 · Conversa privada — RF09, RF11, RF12 · Planejado
+### CA39 · Conversa privada — RF09, RF11, RF12 · Planejado
 
 > **Dado:** dois usuários cadastrados;
 > **Quando:** um inicia uma conversa e envia uma mensagem;
